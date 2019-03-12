@@ -1,2 +1,6 @@
 ip addr flush eth0
+ip addr add 192.168.12.10 dev eth0
+ip route add 192.168.12.9 dev eth0
+ip route add default via 192.168.12.9
 
+chmod +x /test.sh
