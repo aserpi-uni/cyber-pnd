@@ -1,6 +1,4 @@
 ip addr flush eth0
-ip addr add 192.168.10.26/29 dev eth0
+ip addr add 192.168.10.26/28 dev eth0
 ip route add default via 192.168.10.17
-
-
 
