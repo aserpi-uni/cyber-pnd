@@ -1,0 +1,9 @@
+apt-get install -y udhcpd
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sysctl net.ipv4.ip_forward=1
+
+ip addr flush eth1
+
+/etc/init.d/networking stop; /etc/init.d/networking start
+udhcpd /etc/udhcpd-custom.conf
