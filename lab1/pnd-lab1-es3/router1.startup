@@ -1,0 +1,14 @@
+sysctl net.ipv4.ip_forward=1
+
+ip addr flush eth0
+ip addr add 192.168.12.29 dev eth0
+ip route add 192.168.12.28 dev eth0
+ip route add 192.168.12.8/29 via 192.168.12.28
+ip route add 192.168.12.30 dev eth0
+ip route add default via 192.168.12.30
+
+ip addr flush eth1
+ip addr add 192.168.12.1 dev eth1
+ip route add 192.168.12.0/29 dev eth1
+
+chmod +x /test.sh

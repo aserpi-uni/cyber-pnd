@@ -1,0 +1,134 @@
+\documentclass{homework}
+
+
+\title{Assignment 1: TCP/IP basics}
+\author{Alessandro Serpi - 1647244}
+\date{1 March 2019}
+
+
+\newcommand{\mt}{\texttt}
+
+
+\begin{document}
+    
+    \maketitle
+    
+    
+    \section{Exercise 1: DHCP network}
+    
+    \subsection{Plan of the activities}
+    
+    \subsubsection{Configure DHCP server}
+    A new configuration file must be supplied, as the default one does not comply with the specifications. The address range is 192.168.10.18-192.168.10.22 as the router's internal interface must be configured statically.
+    
+    \subsubsection{Configure router's internal interface}
+    The router's internal interface must be configured with a static address, as a DHCP server may not respect reservations.
+    
+    \subsubsection{Configure terminals' interfaces}
+    Terminals' interface must be configured in order to receive the configuration from a DHCP server.
+    
+    \subsection{Implementation}
+    
+    \subsubsection{\mt{boundary.startup}}
+    The DHCP server \textit{udhcpd} is installed through \textit{apt-get} (it requires an internet connection).
+    
+    Then, the \textit{networking} service is restarted through \mt{/etc/init.d/networking stop; /etc/init.d/networking start} in order to apply the changes in file \mt{/etc/network/interfaces}.
+    
+    Lastly, the DHCP server is launched with the new configuration file \mt{/etc/udhcpd-custom.conf}.
+    
+    \subsubsection{\mt{boundary/etc/network/interfaces}}
+    The interface \mt{eth1} has been configured according to specification with the static address 192.168.10.17.
+    
+    \subsubsection{\mt{boundary/etc/udhcpd-custom.conf}}
+    In this file are stored the options for \textit{udhcp}, the DHCP server. With respect to the original configuration file few edits have been made: address range and router's address have been updated as per specifications and and interface has been modified to comply to the network topology.
+    
+    \subsubsection{\mt{pcX.startup}}
+    The \textit{networking} service is restarted in order to apply the changes in file \mt{/etc/network/interfaces}.
+    
+    \subsubsection{\mt{pcX/etc/network/interfaces}}
+    The only interface is configured so to request an IP address to a DHCP server.
+    
+    \subsection{Testing procedure}
+    In every host the local IP address is retrieved using \mt{ip addr show}, then every host pings every other hosts and 1.1.1.1. The test is successful if and only if all pings are successful.
+    
+    \subsection{Final remarks}
+    The command \mt{/etc/init.d/networking restart} has been deprecated from years. However, it has never been removed and can be safely replace the expression \\ \mt{/etc/init.d/networking stop; /etc/init.d/networking start}.
+    
+    Since hosts' addresses change at every reboot, no simple automatic test mechanism can be defined.
+    
+    
+    \section{Exercise 2: Network with static addressing}
+    
+    \subsection{Plan of the activities}
+    
+    \subsubsection{Find the IP addresses for all hosts}
+    The IP addresses are stored in \mt{dns/etc/bind/db.pndeflab.edu}, which corresponds to \mt{/etc/bind/db.pndeflab.edu} in the DNS server.
+    
+    \subsubsection{Assign an IP address to each host}
+    IP addresses are assigned based on the ones found in the previous activity. For example, the IP address specified in resource record \mt{pc1        IN      A       192.168.37.100} is assigned to terminal \mt{pc1}.
+    
+    \subsubsection{Define static routes}
+    Each host need to communicate with the others, therefore it needs a routing method.
+    
+    \subsubsection{Define the DNS servers}
+    All hosts need to know the DNS server for the network and for internet (host \mt{dns} included).
+    
+    \subsection{Implementation}
+    IP addresses and routes are assigned statically using the \mt{ip} command, namely \mt{ip addr add $\langle$address$\rangle$ dev $\langle$interface$\rangle$}, \mt{ip route add $\langle$address$\rangle$ dev $\langle$interface$\rangle$} and \mt{ip route add default via $\langle$address$\rangle$}. \mt{dns}, \mt{pc1} and \mt{pc2} have only interface \mt{eth0}, while \mt{boundary} is connected to the local network via interface \mt{eth1}.
+    
+    The DNS servers have been specified in \mt{/etc/resolv.conf} in all hosts. Host \mt{dns} provides services for the local network, while Cloudflare's 1.1.1.1 provides services for internet.
+      
+    \subsection{Testing procedure}
+    A script \mt{test.sh} has included in the root directory of every host. It pings all hosts (using the names specified in the resource records) and google.com; it exits correctly if and only if all pings are successful.
+    
+    \subsection{Final remarks}
+    Given the size of the network all tasks have been performed manually. In larger networks the activities must have been automatised.
+    
+    
+    \section{Exercise 3: Two networks with static routes}
+    
+    \subsection{Plan of the activities}
+    
+    \subsubsection{Determine the subnet}
+    The network is composed by two LANs, which are connected to internet (through the router \mt{border}) and each other. It stands to reason that each LAN should have the possibility to act as an independent network.
+    
+    It is necessary to determine a subnet for \mt{lan1}, another for \mt{lan2} and a supernet encompassing LANs and routers.
+    
+    \subsubsection{Implement the network}
+    Since no dynamic routing mechanisms is in place, it is necessary to implement statically addresses and routes in every host.
+    
+    \subsection{Implementation}
+    
+    \subsubsection{Network}
+    Each LAN is composed by two terminals plus a router, therefore it needs a /29 subnet. Given that in a /28 subnet there can be only two /29 subnets, it is necessary to allocate a /27 subnet for covering the whole local network.
+    
+    To the routers' interfaces in \mt{internal} have been assigned the highest addresses (.30, .29 and .28) in order to free 192.168.12.16/29 for future expansions.
+    
+    \subsubsection{\mt{border.startup}}
+    The address \mt{192.168.12.30} is assigned statically to \mt{eth1} using the command \mt{ip addr add 192.168.12.30 dev eth1}.
+    
+    It is defined the route to each LAN using the commands \mt{ip route add $\langle$router address$\rangle$ dev eth0} (where \mt{router address} is router's address in \mt{internal}) and \mt{ip route add $\langle$lan address$\rangle$ via $\langle$router address$\rangle$}
+    
+    \subsubsection{\mt{routerX.startup}}
+    The address 192.168.12.\mt{Y}, where $\mt{Y} = 8(\mt{X} - 1) + 1$, is statically assigned to the interface in the LAN using the command \mt{ip addr add $\langle$address$\rangle$ dev eth1}. Then, \mt{eth1} is made the default interface for communicating with the rest of the LAN through \mt{ip route add $\langle$lan address$\rangle$ dev eth1}.
+    
+    The address 192.168.12.\mt{Z}, where $\mathtt{Z} = 30 - \mathtt{X}$, is statically assigned to the interface in \mt{internal} using the command 
+    \mt{ip addr add $\langle$address$\rangle$ dev eth0}.
+    
+    \mt{border} is made the default gateway through \mt{ip addr add 192.168.12.30 dev eth0} and \mt{ip route add default via 192.168.12.30}.
+    
+    Lastly, the route for the other LAN is defined using \mt{ip addr add $\langle$router address$\rangle$ dev eth1}, where \mt{router address} is the router's address in \mt{internal}, and \mt{ip route add $\langle$lan address$\rangle$/29 via $\langle$router address$\rangle$}.
+    
+    \subsubsection{\mt{lanXpcY.startup}}
+    The address \mt{192.168.12.Z} is assigned statically to the only interface using the command \mt{ip addr add $\langle$address$\rangle$ dev eth0}. Terminals in \mt{lan1} receive IP address such that $Z \in \left[1,6\right]$, while terminals in \mt{lan2} receive address such that $Z \in \left[9,14\right]$.
+    
+    The route to the router is assigned statically through \mt{ip route add $\langle$router address$\rangle$ dev eth0}.
+    The router is then elected as the default gateway using the command \mt{ip route add default via $\langle$router address$\rangle$}.
+    
+    \subsection{Testing procedure}
+    A script \mt{test.sh} has included in the root directory of every host. It pings all hosts and 1.1.1.1; it exits correctly if and only if all pings are successful.
+    
+    \subsection{Final remarks}
+    Given the small size of the network, all addresses and routes have been statically defined, In larger network, it is necessary to implement automatised routing and network management protocols.
+    
+\end{document}
