@@ -1,0 +1,81 @@
+\documentclass{homework}
+
+
+\title{Assignment 2: Network sniffing}
+\author{Alessandro Serpi - 1647244}
+\date{8 March 2019}
+
+
+\newcommand{\mt}{\texttt}
+
+
+\begin{document}
+    
+    \maketitle
+    
+    
+    \section{Exercise 1: Intercept DHCP messages}
+    
+    \subsection{Plan of the activities}
+    Start \textit{tcpdump}, then the DHCP server. Lastly, close \textit{tcpdump}.
+    
+    \subsection{Implementation}
+    On \textit{boundary}, the packet capture is started in background using \mt{tcpdump -i eth1 -w dhcp.pcap -n port 67 and port 68 \&}, then the DHCP server is launched  with \mt{udhcpd}.
+    
+    When both \textit{pc1} and \textit{pc2} have a local IP address, \textit{tcpdump} can be killed.
+    
+    \subsection{Testing procedure}
+    There is no testing mechanism (the lab has not been altered).
+    
+    \subsection{Final remarks}
+    The \mt{dhcp.pcap} file is transferred to the host using the command \mt{docker cp}.
+    
+    
+    \section{Exercise 2: Mistakes in the IP addresses}
+    
+    \subsection{Identify the errors}
+    
+    \subsubsection{Get the IP addresses}
+    Get the local IP address of every interface with \mt{ip a s $\langle$interface$\rangle$}, where \mt{interface} is \mt{eth0} for \textit{pcX} and \mt{eth1} and \mt{eth2} for \textit{boundary}.
+    
+    \subsubsection{Check connectivity}
+    From every host, ping every other host. The type of failure should provide information about the error in the configuration.
+    
+    \subsection{Correct the errors}
+    
+    \subsubsection{pc2}
+    \textit{pc2} did not ping \textit{pc6} directly, but it routed the ping through \textit{border}. The error was in the netmask in \mt{eth0} address declaration (\mt{/29} instead of \mt{/28}).
+    
+    \subsubsection{pc3}
+    \textit{pc3} could not ping hosts outside of its LAN. The default gateway address was incorrect (\mt{192.168.10.18} instead of \mt{192.168.10.18}).
+    
+    \subsubsection{pc6}
+    \textit{pc6} could reach neither the default gateway nor some hosts in the LAN. The netmask in \mt{eth0} address was incorrect (\mt{/29} instead of {/28}).
+    
+    \subsubsection{pc10}
+    When trying to ping \textit{pc10} from any other host, there was a warning. The address assigned to \mt{eth0} was reserved for broadcast messages (\mt{192.168.20.71}, changed to \mt{192.168.20.70}).
+    
+    \subsection{Testing procedure}
+    In every host the local IP address is retrieved using \mt{ip addr show}, then every host pings every other hosts and 1.1.1.1. The test is successful if and only if all pings are successful.
+    
+    \subsection{Final remarks}
+    Despite what the plan of activity states, it is not useful to ping all hosts from every host. Normally, at most three pings are necessary.
+    
+    
+    \section{Exercise 3: Intercept RIP messages}
+    
+    \subsection{Plan of the activities}
+    Start \textit{tcpdump} on an interface in the \mt{internal} network, then launch \textit{quagga}, the RIP provider, in every router. Lastly, close \textit{tcpdump}.
+    
+    \subsection{Implementation}
+    On \textit{border}, the packet capture is launched in background using \mt{tcpdump -i eth1 -w rip.pcap -n port 520 \&}, then \textit{quagga} is restarted  with \mt{/etc/init.d/quagga restart}.
+    
+    After 20 seconds, \textit{tcpdump} can be killed.
+    
+    \subsection{Testing procedure}
+    There is no testing mechanism (the lab has not been altered).
+    
+    \subsection{Final remarks}
+    The \mt{rip.pcap} file is transferred to the host using the command \mt{docker cp}.
+    
+\end{document}
