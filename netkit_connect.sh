@@ -81,6 +81,12 @@ if ! ( [ $INTERFACE ] && [ $NETWORK ] ); then
   exit 2
 fi
 
+if ! [[ `sudo docker network ls | grep -E [[:space:]]netkit_0_$NETWORK[[:space:]]` =~ ^[[:alnum:]]* ]]; then
+  echo "No such network!"
+  exit 3
+fi
+DOCKER_NETWORK="br-${BASH_REMATCH[0]%?}"
+
 if ! [[ `grep ${INTERFACE}_host /proc/net/dev` ]]; then
   sudo ip link add dev ${INTERFACE}_netkit type veth peer name ${INTERFACE}_host
   sudo ip link set ${INTERFACE}_host up
@@ -96,9 +102,6 @@ if [[ $ADDRESS_NETKIT ]]; then
   sudo ip addr flush dev ${INTERFACE}_netkit
   sudo ip addr add $ADDRESS_NETKIT dev ${INTERFACE}_netkit
 fi
-
-DOCKER_NETWORK=$(sudo docker network ls | grep ".*netkit.*$NETWORK" | grep -Po "^(.*?)\s")
-DOCKER_NETWORK="br-${DOCKER_NETWORK%?}"
 
 sudo brctl addif $DOCKER_NETWORK ${INTERFACE}_netkit
 
