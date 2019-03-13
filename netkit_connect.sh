@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap "exit 2" 2
+
 HELP=$(cat <<-EOM
 Usage: $0 [options]
 
@@ -16,6 +18,7 @@ PARAMS=""
 ROUTES=()
 
 while (( "$#" )); do
+  [[ $1 == --*=* ]] && set -- "${1%%=*}" "${1#*=}" "${@:2}"
   case "$1" in
     -a|--host-address)
       if [ ${ADDRESS_HOST+x} ]; then
@@ -63,7 +66,7 @@ while (( "$#" )); do
       ;;
     -*|--*=) # unsupported flags
       echo "Error: Unsupported parameter $1" >&2
-      exit 1
+      exit 2
       ;;
     *) # preserve positional arguments
       PARAMS="$PARAMS $1"
@@ -78,12 +81,12 @@ eval set -- "$PARAMS"
 
 if ! ( [ $INTERFACE ] && [ $NETWORK ] ); then
   echo "$HELP"
-  exit 2
+  exit 3
 fi
 
 if ! [[ `sudo docker network ls | grep -E [[:space:]]netkit_0_$NETWORK[[:space:]]` =~ ^[[:alnum:]]* ]]; then
   echo "No such network!"
-  exit 3
+  exit 10
 fi
 DOCKER_NETWORK="br-${BASH_REMATCH[0]%?}"
 
