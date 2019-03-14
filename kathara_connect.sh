@@ -9,7 +9,7 @@ Usage: $0 [options]
     -h| --help              help [optional]
     -i| --interface         interface base name
     -n| --network           network as called in lab.conf
-    -o| --netkit-address    address for the netkit interface [optional]
+    -o| --kathara-address   address for the kathara interface [optional]
     -r| --route             add a route to the local interface [optional]
 EOM
 )
@@ -48,12 +48,12 @@ while (( "$#" )); do
       NETWORK=$2
       shift 2
       ;;
-    -o|--netkit-address)
-      if [ ${ADDRESS_NETKIT+x} ]; then
-        echo "ERROR: Too many netkit addresses"
+    -o|--kathara-address)
+      if [ ${ADDRESS_KATHARA+x} ]; then
+        echo "ERROR: Too many kathara addresses"
         exit 2
       fi
-      ADDRESS_NETKIT=$2
+      ADDRESS_KATHARA=$2
       shift 2
       ;;
     -r|--route)
@@ -91,9 +91,9 @@ fi
 DOCKER_NETWORK="br-${BASH_REMATCH[0]}"
 
 if ! [[ `grep ${INTERFACE}_host /proc/net/dev` ]]; then
-  sudo ip link add dev ${INTERFACE}_netkit type veth peer name ${INTERFACE}_host
+  sudo ip link add dev ${INTERFACE}_kathara type veth peer name ${INTERFACE}_host
   sudo ip link set ${INTERFACE}_host up
-  sudo ip link set ${INTERFACE}_netkit up
+  sudo ip link set ${INTERFACE}_kathara up
 fi
 
 if [[ $ADDRESS_HOST ]]; then
@@ -101,12 +101,12 @@ if [[ $ADDRESS_HOST ]]; then
   sudo ip addr add $ADDRESS_HOST dev ${INTERFACE}_host
 fi
 
-if [[ $ADDRESS_NETKIT ]]; then
-  sudo ip addr flush dev ${INTERFACE}_netkit
-  sudo ip addr add $ADDRESS_NETKIT dev ${INTERFACE}_netkit
+if [[ $ADDRESS_KATHARA ]]; then
+  sudo ip addr flush dev ${INTERFACE}_kathara
+  sudo ip addr add $ADDRESS_KATHARA dev ${INTERFACE}_kathara
 fi
 
-sudo brctl addif $DOCKER_NETWORK ${INTERFACE}_netkit
+sudo brctl addif $DOCKER_NETWORK ${INTERFACE}_kathara
 
 for route in "${ROUTES[@]}"; do
   sudo ip route add $route dev ${INTERFACE}_host
