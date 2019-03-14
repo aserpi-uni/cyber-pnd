@@ -3,14 +3,15 @@
 trap "exit 2" 2
 
 HELP=$(cat <<-EOM
-Usage: $0 [options]
+Usage: $0 NETWORK INTERFACE [OPTIONAL PARAMS]
+    
+    NETWORK                 network as called in lab.conf
+    INTERFACE               interface base name
 
-    -a| --host-address      address for the host interface [optional]
-    -h| --help              help [optional]
-    -i| --interface         interface base name
-    -n| --network           network as called in lab.conf
-    -o| --kathara-address   address for the kathara interface [optional]
-    -r| --route             add a route to the local interface [optional]
+    -a| --host-address      address for the host interface
+    -h| --help              help
+    -k| --kathara-address   address for the kathara interface
+    -r| --route             add a route to the local interface
 EOM
 )
 
@@ -32,23 +33,7 @@ while (( "$#" )); do
       echo "$HELP"
       exit 0
       ;;
-    -i|--interface)
-      if [ ${INTERFACE+x} ]; then
-        echo "ERROR: Too many interfaces"
-        exit 2
-      fi
-      INTERFACE=$2
-      shift 2
-      ;;
-    -n|--network)
-      if [ ${NETWORK+x} ]; then
-        echo "ERROR: Too many networks"
-        exit 2
-      fi
-      NETWORK=$2
-      shift 2
-      ;;
-    -o|--kathara-address)
+    -k|--kathara-address)
       if [ ${ADDRESS_KATHARA+x} ]; then
         echo "ERROR: Too many kathara addresses"
         exit 2
@@ -69,7 +54,7 @@ while (( "$#" )); do
       exit 2
       ;;
     *) # preserve positional arguments
-      PARAMS="$PARAMS $1"
+      PARAMS="$PARAMS \"$1\""
       shift
       ;;
   esac
@@ -79,10 +64,13 @@ done
 eval set -- "$PARAMS"
 
 
-if ! ( [ $INTERFACE ] && [ $NETWORK ] ); then
+if ! ( [ $1 ] && [ $2 ] ); then
   echo "$HELP"
   exit 3
 fi
+
+INTERFACE=$2
+NETWORK=$1
 
 if ! [[ `sudo docker network ls | grep -E [[:space:]]netkit_0_$NETWORK[[:space:]]` =~ ^[[:alnum:]]* ]]; then
   echo "No such network!"
