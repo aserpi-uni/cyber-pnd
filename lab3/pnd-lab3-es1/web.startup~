@@ -1,6 +1,0 @@
-ip addr flush eth0
-ip addr flush eth1
-ip addr flush eth2
-/etc/init.d/networking restart
-
-/usr/bin/python -m SimpleHTTPServer 80
