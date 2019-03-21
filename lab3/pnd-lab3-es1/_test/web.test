@@ -1,0 +1,8 @@
+#!/bin/bash
+
+wget -t 1 -T 1 1.1.1.1 -q
+if [ $? = 0 ] ; then
+    echo "Internet firewall failure"
+else
+    echo "Internet firewall ok"
+fi

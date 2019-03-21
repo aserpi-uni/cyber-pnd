@@ -1,0 +1,15 @@
+#!/bin/bash
+
+wget -t 1 -T 1 web.pndeflab.edu -q
+if [ $? = 0 ] ; then
+    echo "Internal firewall failure"
+else
+    echo "Internal firewall ok"
+fi
+
+wget -t 1 -T 1 1.1.1.1 -q
+if [ $? = 0 ] ; then
+    echo "Internet firewall failure"
+else
+    echo "Internet firewall ok"
+fi

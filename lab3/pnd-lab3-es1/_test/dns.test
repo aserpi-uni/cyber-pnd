@@ -1,0 +1,22 @@
+#!/bin/bash
+
+nslookup google.com > /dev/null
+if [ $? = 0 ] ; then
+    echo "External DNS ok"
+else
+    echo "External DNS failure"
+fi
+
+wget -t 1 -T 1 web.pndeflab.edu -q
+if [ $? = 0 ] ; then
+    echo "Internal firewall failure"
+else
+    echo "Internal firewall ok"
+fi
+
+wget -t 1 -T 1 google.com -q
+if [ $? = 0 ] ; then
+    echo "Internet firewall failure"
+else
+    echo "Internet firewall ok"
+fi
