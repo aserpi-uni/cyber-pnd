@@ -7,3 +7,6 @@ ifup eth2
 dpkg --install --force-confold  /var/cache/apt/archives/*.deb
 service rsyslog start
 service ssh start
+
+chmod +x /rules.sh
+/rules.sh
