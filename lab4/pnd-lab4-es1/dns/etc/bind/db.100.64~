@@ -1,0 +1,16 @@
+$TTL   86400
+@               IN      SOA     pndeflab.edu.    root.pndeflab.edu. (
+                        1       ; serial
+                        604800  ; refresh
+                        86400   ; retry
+                        3600000 ; expire
+                        604800  ; negative cache ttl
+                        )
+@         IN      NS        pndeflab.edu.
+6.1       IN      PTR       main.pndeflab.edu.
+1.1       IN      PTR       intfw.pndeflab.edu.
+6.2       IN      PTR       web.pndeflab.edu.
+6.3       IN      PTR       ftp.pndeflab.edu.
+1.2       IN      PTR       dns.pndeflab.edu.   
+1.3       IN      PTR       syslog.pndeflab.edu.
+2.10      IN      PTR       pc1.pndeflab.edu.
