@@ -39,7 +39,9 @@
     Start the lab, then run the script \texttt{confgure.sh}\footnote{it requires root privileges}. The script assigns a client IP to the host and creates a valid route to the internal network. In this way, the host acts like a client when connecting to the internal network. Using the output of the script, configure the virtual machines as follows: in \mainfw, assign a NAT connection to the first network interface, DMZ to the second and Firewalls to the third; in \intfw, assign Firewalls to the first network interface, Server to the second and Client to the third. These steps must be repeated every time the lab restart, as \kat changes the bridge names every time.
     
     \subsection{Configuring the interfaces}
-    \fxnote{TODO}
+    Power up both virtual machine, login as root and enter interface assignment menu. Use \texttt{em0} as WAN, \texttt{em1} as OPT1 and \texttt{em2} as LAN.
+    
+    Enter the IP address configuration menu. In \mainfw, configure WAN to use DHCP, assign 100.64.254.1/30 to LAN and 100.64.6.1/24 to OPT1; in \intfw, assign address 100.64.254.2/30 and gateway 100.64.254.1 to WAN, address 100.64.2.1/24 to LAN and 100.64.1.1/24 to OPT1.
     
     \subsection{Setting up \opn}
     \fxnote{TODO}
