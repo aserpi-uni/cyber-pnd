@@ -62,6 +62,9 @@
     \section{Test of the configuration}
     \fxnote{TODO}
     
+    
     \section{Final remarks}
-    \fxnote{TODO}
+    When checksum offload is activated, all packets passing through the firewall get corrupted. Disabling it on the host's virtual interfaces produce no effects, it must be done from the \kat hosts.
+    
+    In theory, outbound NAT should be disabled in \mainfw, as \vb already takes care of translating the IP addresses. In practice, disabling it creates conflicts when running the configuration script.
 \end{document}
