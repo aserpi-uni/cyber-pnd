@@ -23,7 +23,8 @@
     
     \section{Setup of the infrastructure}
     \subsection{Disabling checksum offload}
-    \fxnote{TODO}
+    The command \texttt{ethtool -K eth0 tx off} was added to every \texttt{.startup} file. This disables the checksum computation offload to the network card; instead, the hosts rely on the CPU to calculate the packet checksums. It is slower, but creates less problems with \opn.
+    In \opn, the checksum offload is disabled by default.
     
     \subsection{Enabling recursive DNS queries}
     \fxnote{TODO}
