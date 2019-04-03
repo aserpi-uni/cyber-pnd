@@ -27,7 +27,9 @@
     In \opn, the checksum offload is disabled by default.
     
     \subsection{Enabling recursive DNS queries}
-    \fxnote{TODO}
+    Recursive DNS queries are not permitted, but this clashes with the fact that client hosts are allowed to retrieve web pages from the internet. Therefore, it has been decided to allow recursive DNS queries adding the clause \texttt{recursion yes;} in \texttt{dns/etc/named.conf}, section \texttt{options}.
+    
+    It has also decided that hosts in the DMZ and in the internal server network may be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed for the whole private network.
     
     \subsection{Creating the VMs}
     \fxnote{TODO}
