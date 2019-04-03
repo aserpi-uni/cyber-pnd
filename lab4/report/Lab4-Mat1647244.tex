@@ -2,7 +2,9 @@
 
 \usepackage{xspace}
 
+\newcommand{\intfw}{\texttt{intfw}\xspace}
 \newcommand{\kat}{Kathará\xspace}
+\newcommand{\mainfw}{\texttt{mainfw}\xspace}
 \newcommand{\opn}{OPNsense\xspace}
 \newcommand{\vb}{VirtualBox\xspace}
 
@@ -31,16 +33,15 @@
     
     It has also decided that hosts in the DMZ and in the internal server network may be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed for the whole private network.
     
-    \subsection{Creating the VMs}
-    \fxnote{TODO}
+    \subsection{Creating and configuring the VMs}
+    Create in \vb two virtual machine, one for \mainfw and the other for \intfw, each with its own disk. Download the ISO installer from \opn's \href{https://opnsense.org/download/}{official website} and add it to the virtual machines. \href{https://docs.opnsense.org/manual/install.html}{Install} \opn in both machine, then power them off and remove the ISO.
+    
+    Start the lab, then run the script \texttt{confgure.sh}\footnote{it requires root privileges}. The script assigns a client IP to the host and creates a valid route to the internal network. In this way, the host acts like a client when connecting to the internal network. Using the output of the script, configure the virtual machines as follows: in \mainfw, assign a NAT connection to the first network interface, DMZ to the second and Firewalls to the third; in \intfw, assign Firewalls to the first network interface, Server to the second and Client to the third. These steps must be repeated every time the lab restart, as \kat changes the bridge names every time.
     
     \subsection{Configuring the interfaces}
     \fxnote{TODO}
     
     \subsection{Setting up \opn}
-    \fxnote{TODO}
-    
-    \subsection{Reboots}
     \fxnote{TODO}
     
     
