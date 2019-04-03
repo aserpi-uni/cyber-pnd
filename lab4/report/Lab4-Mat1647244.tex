@@ -44,7 +44,9 @@
     Enter the IP address configuration menu. In \mainfw, configure WAN to use DHCP, assign 100.64.254.1/30 to LAN and 100.64.6.1/24 to OPT1; in \intfw, assign address 100.64.254.2/30 and gateway 100.64.254.1 to WAN, address 100.64.2.1/24 to LAN and 100.64.1.1/24 to OPT1.
     
     \subsection{Setting up \opn}
-    \fxnote{TODO}
+    In \mainfw, enter the shell and execute \texttt{route add -inet 100.64.0.0/16 -link \\ 100.64.254.2}. This is a temporary measure in order to access the web GUI from the host. From now on, all operations will be executed through the GUI, accessible at \url{https://100.64.254.1} for \mainfw and \url{https://100.64.2.1} for \intfw. In \mainfw, add route \texttt{100.64.0.0/16} using gateway \texttt{100.64.254.2}.
+    
+    Disable outbound NAT in \intfw (unnecessary, as it is an internal firewall) and outbound DNS in both machines (DNS servers are configured statically in each host). In \mainfw, set outbound NAT in manual mode and create a rule for NATting the traffic that leaves the private network.
     
     
     \section{Evaluation of the security policy}
