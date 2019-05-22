@@ -6,3 +6,4 @@ service ssh start
 /etc/init.d/bind start
 
 ethtool -K eth0 tx off
+chmod +x dns.test

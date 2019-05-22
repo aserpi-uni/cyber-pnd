@@ -1,0 +1,25 @@
+#!/bin/bash
+
+SUCCESS=0
+if nslookup google.com > /dev/null; then
+    echo "External DNS ok"
+else
+    echo "External DNS failure"
+    (( SUCCESS = $SUCCESS | 1 ))
+fi
+
+if wget -q -t 1 -T 1 web.pndeflab.edu; then
+    echo "Internal firewall ok"
+else
+    echo "Internal firewall failure"
+    (( SUCCESS = $SUCCESS | 2 ))
+fi
+
+if wget -q -t 1 -T 1 google.com; then
+    echo "Internet firewall failure"
+    (( SUCCESS = $SUCCESS | 4 ))
+else
+    echo "Internet firewall ok"
+fi
+
+exit $SUCCESS

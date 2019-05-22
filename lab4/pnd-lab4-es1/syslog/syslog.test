@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SUCCESS=0
+
+if wget -q -t 1 -T 1 web.pndeflab.edu ; then
+    echo "Internal firewall ok"
+else
+    echo "Internal firewall failure"
+    (( SUCCESS = $SUCCESS | 1 ))
+fi
+
+if wget -q -t 1 -T 1 216.58.205.100; then
+    echo "Internet firewall failure"
+    (( SUCCESS = $SUCCESS | 1 ))
+else
+    echo "Internet firewall ok"
+fi
+
+exit $SUCCESS

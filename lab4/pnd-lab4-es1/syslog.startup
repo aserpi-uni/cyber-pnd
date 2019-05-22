@@ -5,3 +5,4 @@ service rsyslog start
 service ssh start
 
 ethtool -K eth0 tx off
+chmod +x syslog.test

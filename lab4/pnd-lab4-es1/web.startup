@@ -8,3 +8,4 @@ service apache2 start
 service rsyslog start
 
 ethtool -K eth0 tx off
+chmod +x web.test

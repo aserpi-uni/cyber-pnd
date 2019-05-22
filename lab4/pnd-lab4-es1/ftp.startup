@@ -6,3 +6,4 @@ service ssh start
 service vsftpd start
 
 ethtool -K eth0 tx off
+chmod +x ftp.test

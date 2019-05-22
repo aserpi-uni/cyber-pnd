@@ -1,0 +1,18 @@
+#!/bin/bash
+
+SUCCESS=0
+
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "Internal DNS ok"
+else
+    echo "Internal DNS failure"
+    (( SUCCESS = $SUCCESS | 1 ))
+fi
+if wget -q -t 1 -T 216.58.205.100; then
+    echo "Internet firewall failure"
+    (( SUCCESS = $SUCCESS | 2 ))
+else
+    echo "Internet firewall ok"
+fi
+
+exit $SUCCESS
