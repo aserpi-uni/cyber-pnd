@@ -2,11 +2,20 @@
 
 \usepackage{xspace}
 
-\newcommand{\intfw}{\texttt{intfw}\xspace}
+
 \newcommand{\kat}{Kathará\xspace}
-\newcommand{\mainfw}{\texttt{mainfw}\xspace}
 \newcommand{\opn}{OPNsense\xspace}
 \newcommand{\vb}{VirtualBox\xspace}
+
+\newcommand{\client}{\textit{client}\xspace}
+\newcommand{\dmz}{\textit{DMZ}\xspace}
+\newcommand{\ser}{\textit{internal server}\xspace}
+\newcommand{\intfw}{\textit{intfw}\xspace}
+\newcommand{\mainfw}{\textit{mainfw}\xspace}
+
+\newcommand{\lan}{\textit{LAN}\xspace}
+\newcommand{\opt}{\textit{OPT1}\xspace}
+\newcommand{\wan}{\textit{WAN}\xspace}
 
 
 \title{Practical Network Defense - Lab 4}
@@ -20,7 +29,7 @@
     
     
     \section{Introduction}
-    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. \textit{DMZ} is connected directly to the main firewall-router \textit{mainfw }and offers services accessible from the external network, while \textit{client} and \textit{internal server} networks are behind a second line of defence (represented by the internal firewall-router \textit{intfw}). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
+    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. \dmz is connected directly to the main firewall-router \mainfw and offers services accessible from the external network, while \client and \ser networks are behind a second line of defence (represented by the internal firewall-router \intfw). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
     
     All hosts are already configured (however, minor adjustment may be made), with the exception of the firewalls, that have yet to be created. 
     
@@ -33,17 +42,17 @@
     \subsection{Enabling recursive DNS queries}
     Recursive DNS queries are not permitted, but this clashes with the fact that client hosts are allowed to retrieve web pages from the internet. Therefore, it has been decided to allow recursive DNS queries adding the clause \texttt{recursion yes;} in \texttt{dns/etc/named.conf}, section \texttt{options}.
     
-    It has also decided that hosts in the \textit{DMZ} and in the \textit{internal server} network should not be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed only for \textit{client} network.
+    It has also decided that hosts in the \dmz and in the \ser networks should not be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed only for \client network.
     
     \subsection{Creating and configuring the VMs}
     Create in \vb two virtual machine, one for \mainfw and the other for \intfw, each with its own disk. Download the ISO installer from \opn's \href{https://opnsense.org/download/}{official website} and add it to the virtual machines. \href{https://docs.opnsense.org/manual/install.html}{Install} \opn in both machine, then power them off and remove the ISO.
     
-    Start the lab, then run the script \texttt{confgure.sh}\footnote{it requires root privileges}. The script assigns a client IP to the host and creates a valid route to the internal network. In this way, the host acts like a client when connecting to the internal network. Using the output of the script, configure the virtual machines as follows: in \mainfw, assign a NAT connection to the first network interface, DMZ to the second and Firewalls to the third; in \intfw, assign Firewalls to the first network interface, Server to the second and Client to the third. These steps must be repeated every time the lab restart, as \kat changes the bridge names every time.
+    Start the lab, then run the script \texttt{confgure.sh}\footnote{it requires root privileges}. The script assigns a client IP to the host and creates a valid route to the internal network. In this way, the host acts like a client when connecting to the internal network. Using the output of the script, configure the virtual machines as follows: in \mainfw, assign a NAT connection to the first network interface, \texttt{DMZ} to the second and \texttt{Firewalls} to the third; in \intfw, assign \texttt{Firewalls} to the first network interface, \texttt{Server} to the second and \texttt{Client} to the third. These steps must be repeated every time the lab restart, as \kat changes the bridge names every time.
     
     \subsection{Configuring the interfaces}
-    Power up both virtual machine, login as root and enter interface assignment menu. Use \texttt{em0} as WAN, \texttt{em1} as OPT1 and \texttt{em2} as LAN.
+    Power up both virtual machine, login as root and enter interface assignment menu. Use \texttt{em0} as \wan, \texttt{em1} as \opt and \texttt{em2} as \lan.
     
-    Enter the IP address configuration menu. In \mainfw, configure WAN to use DHCP, assign 100.64.254.1/30 to LAN and 100.64.6.1/24 to OPT1; in \intfw, assign address 100.64.254.2/30 and gateway 100.64.254.1 to WAN, address 100.64.2.1/24 to LAN and 100.64.1.1/24 to OPT1.
+    Enter the IP address configuration menu. In \mainfw, configure \wan to use DHCP, assign \texttt{100.64.254.1/30} to \lan and \texttt{100.64.6.1/24} to \opt; in \intfw, assign address \texttt{100.64.254.2/30} and gateway \texttt{100.64.254.1} to \wan, address \texttt{100.64.2.1/24} to \lan and \texttt{100.64.1.1/24} to \opt.
     
     \subsection{Setting up \opn}
     In \mainfw, enter the shell and execute \texttt{route add -inet 100.64.0.0/16 -link \\ 100.64.254.2}. This is a temporary measure in order to access the web GUI from the host. From now on, all operations will be executed through the GUI, accessible at \url{https://100.64.254.1} for \mainfw and \url{https://100.64.2.1} for \intfw. In \mainfw, add route \texttt{100.64.0.0/16} using gateway \texttt{100.64.254.2}.
