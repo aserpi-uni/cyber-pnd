@@ -33,7 +33,7 @@
     \subsection{Enabling recursive DNS queries}
     Recursive DNS queries are not permitted, but this clashes with the fact that client hosts are allowed to retrieve web pages from the internet. Therefore, it has been decided to allow recursive DNS queries adding the clause \texttt{recursion yes;} in \texttt{dns/etc/named.conf}, section \texttt{options}.
     
-    It has also decided that hosts in the DMZ and in the internal server network may be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed for the whole private network.
+    It has also decided that hosts in the \textit{DMZ} and in the \textit{internal server} network should not be interested in retrieving IP addresses of external websites. Hence, recursive DNS queries have been allowed only for \textit{client} network.
     
     \subsection{Creating and configuring the VMs}
     Create in \vb two virtual machine, one for \mainfw and the other for \intfw, each with its own disk. Download the ISO installer from \opn's \href{https://opnsense.org/download/}{official website} and add it to the virtual machines. \href{https://docs.opnsense.org/manual/install.html}{Install} \opn in both machine, then power them off and remove the ISO.
