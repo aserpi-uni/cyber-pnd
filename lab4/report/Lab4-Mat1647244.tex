@@ -52,7 +52,25 @@
     
     
     \section{Evaluation of the security policy}
-    \fxnote{TODO}
+    \subsection{DNS}
+    All internal hosts should be able to resolve internal domain names.
+    Since devices in the \textit{client} network are the only ones that can access external web services, no other host should be able to resolve external domains,
+    
+    \subsection{FTP}
+    All internal hosts should be able to connect to the internal FTP server, while only devices in \textit{client} network should be able to connect to external ones.
+    External hosts should be able to connect to the internal FTP server.
+    
+    \subsection{HTTP/HTTPS}
+    All internal hosts should be able to connect to the internal web server, while only devices in \textit{client} network should be able to connect to external websites and to the firewall-router administration pages.
+    External hosts should be able to connect to the internal web server.
+    
+    \subsection{SSH}
+    Hosts in \textit{client} network should be able to use the SSH protocol in the internal network.
+    No other use is authorised.
+    
+    \subsection{Syslog}
+    Internal hosts should be able to send logging messages to the syslog server.
+    No other use is authorised.
     
     
     \section{Policy implementation in \opn}
