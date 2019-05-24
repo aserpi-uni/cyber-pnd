@@ -20,7 +20,7 @@
     
     
     \section{Introduction}
-    The private network of ACME co. is composed by four subnetworks living in the shared address space 100.64.0.0/16. DMZ is connected directly to the main firewall-router and offer services accessible from the external network, while client and internal server networks are behind a second line of defence (represented by the internal firewall-router). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
+    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. \textit{DMZ} is connected directly to the main firewall-router \textit{mainfw }and offers services accessible from the external network, while \textit{client} and \textit{internal server} networks are behind a second line of defence (represented by the internal firewall-router \textit{intfw}). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
     
     All hosts are already configured (however, minor adjustment may be made), with the exception of the firewalls, that have yet to be created. 
     
@@ -28,7 +28,7 @@
     \section{Setup of the infrastructure}
     \subsection{Disabling checksum offload}
     The command \texttt{ethtool -K eth0 tx off} was added to every \texttt{.startup} file. This disables the checksum computation offload to the network card; instead, the hosts rely on the CPU to calculate the packet checksums. It is slower, but creates less problems with \opn.
-    In \opn, the checksum offload is disabled by default.
+    In \opn, checksum offload is disabled by default.
     
     \subsection{Enabling recursive DNS queries}
     Recursive DNS queries are not permitted, but this clashes with the fact that client hosts are allowed to retrieve web pages from the internet. Therefore, it has been decided to allow recursive DNS queries adding the clause \texttt{recursion yes;} in \texttt{dns/etc/named.conf}, section \texttt{options}.
@@ -66,5 +66,5 @@
     \section{Final remarks}
     When checksum offload is activated, all packets passing through the firewall get corrupted. Disabling it on the host's virtual interfaces produce no effects, it must be done from the \kat hosts.
     
-    In theory, outbound NAT should be disabled in \mainfw, as \vb already takes care of translating the IP addresses. In practice, disabling it creates conflicts when running the configuration script.
+    In theory, outbound NAT should be disabled in \mainfw, as \vb already takes care of translating the IP addresses. In practice, disabling it conflicts with the configuration script.
 \end{document}
