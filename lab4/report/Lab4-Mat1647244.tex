@@ -60,7 +60,16 @@
     
     
     \section{Test of the configuration}
-    \fxnote{TODO}
+    In the root directory of each \kat  host there is an executable script \texttt{$\langle$host$\rangle$.test} that checks the firewall and DNS functionality.
+    The return code is a 4-bit flag:
+    \begin{itemize}
+        \item \texttt{0001}: error on DNS resolution of internal hosts
+        \item \texttt{0010}: error on DNS resolution of external hosts
+        \item \texttt{0100}: error on internal web connectivity
+        \item \texttt{1000}: error on external web connectivity.
+    \end{itemize}
+    
+    Given that \textit{expect} is not installed and both \textit{ftp} and \textit{ssh} clients can not be reliably used with simple bash scripts, testing the corresponding protocols must be done manually, checking the connectivity for each host.
     
     
     \section{Final remarks}
