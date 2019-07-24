@@ -102,6 +102,38 @@
     \subsection{Aliases}
     To each relevant address (or address range) has been assigned an alias.
     When formulating firewall or port forwarding rules, we can use the alias instead of the correspondent address, increasing readability and decreasing the possibility of errors.
+    
+    \subsection{Packets arriving to \mainfw from\dots}
+    \subsubsection{\dots \dmz}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/mainfw-DMZ}
+        \label{fig:mainfw-dmz}
+    \end{figure}
+    
+    \subsubsection{\dots outside}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/mainfw-wan}
+        \label{fig:mainfw-wan}
+    \end{figure}
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/mainfw-portforwarding}
+        \label{fig:mainfw-portforwarding}
+    \end{figure}
+    Since the FTP and the web servers provide public services but have no public IP address, it is necessary to enable port forwarding.
+    
+    \subsubsection{\dots \intfw}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/mainfw-internal}
+        \label{fig:mainfw-internal}
+    \end{figure}
+    An attacker that has compromised \intfw (or the link between the firewalls) is able to spoof address in \dmz.
+    However, this small risk is greatly surpassed by the additional flexibility: it is possible to add a new low-privilege internal subnet without modifying firewall rules.
+    
     \fxnote{TODO}
     
     
