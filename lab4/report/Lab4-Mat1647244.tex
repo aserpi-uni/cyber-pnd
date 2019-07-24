@@ -134,7 +134,28 @@
     An attacker that has compromised \intfw (or the link between the firewalls) is able to spoof address in \dmz.
     However, this small risk is greatly surpassed by the additional flexibility: it is possible to add a new low-privilege internal subnet without modifying firewall rules.
     
-    \fxnote{TODO}
+    \subsection{Packets arriving to \intfw from \dots}
+    \subsubsection{\dots \mainfw}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/intfw-main}
+        \label{fig:intfw-main}
+    \end{figure}
+    Similarly to the previous section, an attacker that has compromised \mainfw (or the link between the firewalls) is able to spoof addresses in \client or \ser networks.
+    
+    \subsubsection{\dots the \client network}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/intfw-client}
+        \label{fig:intfw-client}
+    \end{figure}
+    
+    \subsubsection{\dots the \ser network}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/intfw-server}
+        \label{fig:intfw-server}
+    \end{figure}
     
     
     \section{Test of the configuration}
