@@ -87,6 +87,21 @@
     
     
     \section{Policy implementation in \opn}
+    There are two types of rules in \opn: floating and interface.
+    Floating rules apply to all packets and (with \texttt{quick} option enabled) have the highest precedence, while interface rules apply only to packets arriving in a specific interface.
+    Unless otherwise stated, enabling a rule automatically creates a reply-to inverse rule that allows reply packets.
+    Since the network topology is quite simple, only interface rules have been used.
+    
+    \subsection{Default policy}
+    Packets not matched by any rule are logged and blocked.
+    Since \opn adopts the opposite default policy for LAN interfaces, the chosen behaviour has been manually enforced everywhere.
+    
+    \subsection{Address spoofing}
+    To avoid IP address spoofing, firewalls reject packets coming from IP addresses not belonging to the subnet the receiving interface is connected to.
+    
+    \subsection{Aliases}
+    To each relevant address (or address range) has been assigned an alias.
+    When formulating firewall or port forwarding rules, we can use the alias instead of the correspondent address, increasing readability and decreasing the possibility of errors.
     \fxnote{TODO}
     
     
