@@ -65,6 +65,9 @@
     
     Disable outbound NAT in \intfw (unnecessary, as it is an internal firewall) and outbound DNS in both machines (DNS servers are configured statically in each host). In \mainfw, set outbound NAT in manual mode and create a rule for NATting the traffic that leaves the private network.
     
+    Enable remote logging in both server ticking the corresponding checkbox in System $\rightarrow$ Settings $\rightarrow$ Logging.
+    Then, insert \texttt{100.64.1.3} as the server and select to send all contents.
+    
     
     \section{Evaluation of the security policy}
     \subsection{DNS}
