@@ -339,7 +339,15 @@
     <rocommunity>public</rocommunity>
   </snmpd>
   <syslog>
-    <reverse/>
+    <reverse>1</reverse>
+    <nentries>50</nentries>
+    <remoteserver>100.64.1.3</remoteserver>
+    <remoteserver2/>
+    <remoteserver3/>
+    <sourceip/>
+    <ipproto>ipv4</ipproto>
+    <logall>1</logall>
+    <enable>1</enable>
   </syslog>
   <nat>
     <outbound>
@@ -877,8 +885,8 @@
   </widgets>
   <revision>
     <username>root@100.64.2.5</username>
-    <time>1558095512.5424</time>
-    <description>/firewall_rules.php made changes</description>
+    <time>1564079082.9243</time>
+    <description>/diag_logs_settings.php made changes</description>
   </revision>
   <OPNsense>
     <Firewall>

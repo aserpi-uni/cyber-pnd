@@ -359,7 +359,15 @@
     <rocommunity>public</rocommunity>
   </snmpd>
   <syslog>
-    <reverse/>
+    <reverse>1</reverse>
+    <nentries>50</nentries>
+    <remoteserver>100.64.1.3</remoteserver>
+    <remoteserver2/>
+    <remoteserver3/>
+    <sourceip/>
+    <ipproto>ipv4</ipproto>
+    <logall>1</logall>
+    <enable>1</enable>
   </syslog>
   <nat>
     <outbound>
@@ -820,9 +828,9 @@
     <column_count>2</column_count>
   </widgets>
   <revision>
-    <username>(system)</username>
-    <time>1558516811.7508</time>
-    <description>/usr/local/opnsense/mvc/script/run_migrations.php made changes</description>
+    <username>root@100.64.2.5</username>
+    <time>1564079140.5959</time>
+    <description>/diag_logs_settings.php made changes</description>
   </revision>
   <OPNsense>
     <Firewall>
@@ -1052,5 +1060,5 @@
   <ppps>
     <ppp/>
   </ppps>
-  <staticroutes version="1.0.0"/>
+  <staticroutes/>
 </opnsense>
