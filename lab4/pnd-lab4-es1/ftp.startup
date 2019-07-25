@@ -1,0 +1,9 @@
+ip addr flush eth0
+/etc/init.d/networking restart
+dpkg --install --force-confold  /var/cache/apt/archives/*.deb
+service rsyslog start
+service ssh start
+service vsftpd start
+
+ethtool -K eth0 tx off
+chmod +x ftp.test

@@ -1,0 +1,18 @@
+$TTL   60000
+@               IN      SOA     pndeflab.edu.    root.pndeflab.edu. (
+                        2006031201 ; serial
+                        28800 ; refresh
+                        14400 ; retry
+                        3600000 ; expire
+                        0 ; negative cache ttl
+                        )
+@          IN      NS      dns.pndeflab.edu.
+mainfw     IN      CNAME   main
+main       IN      A       100.64.6.1
+intfw      IN      A       100.64.1.1
+web        IN      A       100.64.6.2
+ftp        IN      A       100.64.6.3
+dns        IN      A       100.64.1.2
+syslog     IN      A       100.64.1.3
+pc1        IN      A       100.64.2.10
+

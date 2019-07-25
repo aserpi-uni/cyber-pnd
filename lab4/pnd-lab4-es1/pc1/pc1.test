@@ -1,0 +1,19 @@
+#!/bin/bash
+
+SUCCESS=0
+
+if wget -q -t 1 -T 1 web.pndeflab.edu; then
+    echo "Internal DNS and web servers ok"
+else
+    echo "Internal DNS and web server failure"
+    (( SUCCESS = $SUCCESS | 5 ))
+fi
+
+if wget -q -t 1 -T 1 google.com; then
+    echo "Internet ok"
+else
+    echo "Internet failure"
+    (( SUCCESS = $SUCCESS | 10 ))
+fi
+
+exit $SUCCESS
