@@ -42,8 +42,8 @@ iptables -I OUTPUT -d $LOG_ADDR -p udp --dport $LOG_PORT -j ACCEPT
 
 ## SSH
 
-iptables -I FORWARD -s $CLIENT_NET -p tcp --dport $SSH_PORT -j ACCEPT
-iptables -I FORWARD -d $CLIENT_NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -s $CLIENT_NET -d $NET -p tcp --dport $SSH_PORT -j ACCEPT
+iptables -I FORWARD -d $CLIENT_NET -s $NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 iptables -I INPUT -s $CLIENT_NET -p tcp --dport $SSH_PORT -j ACCEPT
 iptables -I OUTPUT -d $CLIENT_NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 

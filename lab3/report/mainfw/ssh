@@ -1,4 +1,4 @@
--I FORWARD -s $CLIENT_NET -p tcp --dport $SSH_PORT -j ACCEPT
--I FORWARD -d $CLIENT_NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-I FORWARD -s $CLIENT_NET -d $NET -p tcp --dport $SSH_PORT -j ACCEPT
+-I FORWARD -d $CLIENT_NET -s $NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 -I INPUT -s $CLIENT_NET -p tcp --dport $SSH_PORT -j ACCEPT
 -I OUTPUT -d $CLIENT_NET -p tcp --sport $SSH_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT 
