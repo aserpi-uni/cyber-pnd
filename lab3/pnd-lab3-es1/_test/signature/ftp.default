@@ -2,8 +2,8 @@
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-580: eth0@if581: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:fe:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+661: eth0@if662: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:0b:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.6.3/24 brd 100.64.1.255 scope global eth0
        valid_lft forever preferred_lft forever
 Kernel IP routing table
@@ -12,12 +12,12 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 100.64.6.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 127.0.0.11:44909        0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.11:42961        0.0.0.0:*               LISTEN     
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
 tcp6       0      0 :::21                   :::*                    LISTEN     
 tcp6       0      0 :::22                   :::*                    LISTEN     
-udp        0      0 127.0.0.11:36815        0.0.0.0:*                          
 udp        0      0 0.0.0.0:514             0.0.0.0:*                          
+udp        0      0 127.0.0.11:44838        0.0.0.0:*                          
 udp6       0      0 :::514                  :::*                               
   UID COMMAND
     0 /bin/bash

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+FTP_ADDR="100.64.6.3"
+FTP_PORTS="20,21"
 WEB_ADDR="100.64.6.2"
 WEB_PORT="80"
 
@@ -21,10 +23,9 @@ iptables -I OUTPUT -j LOG --log-level 3 --log-prefix "netfilter output drop: "
 ## DMZ
 
 # FTP server
-iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 21 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 21 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 20 -j ACCEPT
-iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 20 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -I PREROUTING -i eth0 -p tcp -m multiport --dports $FTP_PORTS -j DNAT --to-destination $FTP_ADDR
+iptables -I FORWARD -d $FTP_ADDR -p tcp -m multiport --dports $FTP_PORTS -j ACCEPT
+iptables -I FORWARD -s $FTP_ADDR -p tcp -m multiport --sports $FTP_PORTS -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # Web server
 iptables -I FORWARD -i eth0 -d $WEB_ADDR -p tcp --dport $WEB_PORT -j ACCEPT

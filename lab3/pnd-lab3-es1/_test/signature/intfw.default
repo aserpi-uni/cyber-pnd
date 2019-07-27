@@ -2,16 +2,16 @@
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-582: eth0@if583: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:fc:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+663: eth0@if664: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:0c:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.254.2/30 brd 100.64.254.3 scope global eth0
        valid_lft forever preferred_lft forever
-592: eth1@if593: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:fd:00:04 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+673: eth1@if674: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:0a:00:04 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.1.1/24 brd 100.64.1.255 scope global eth1
        valid_lft forever preferred_lft forever
-594: eth2@if595: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ac:fb:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+675: eth2@if676: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:09:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.2.1/24 brd 100.64.2.255 scope global eth2
        valid_lft forever preferred_lft forever
 Kernel IP routing table
@@ -23,10 +23,10 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
 tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.11:36493        0.0.0.0:*               LISTEN     
+tcp        0      0 127.0.0.11:41305        0.0.0.0:*               LISTEN     
 tcp6       0      0 :::22                   :::*                    LISTEN     
-udp        0      0 0.0.0.0:54169           0.0.0.0:*                          
-udp        0      0 127.0.0.11:46764        0.0.0.0:*                          
+udp        0      0 0.0.0.0:44775           0.0.0.0:*                          
+udp        0      0 127.0.0.11:47056        0.0.0.0:*                          
   UID COMMAND
     0 /bin/bash
   110 /usr/sbin/rsyslogd

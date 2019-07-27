@@ -14,15 +14,6 @@ iptables -I INPUT -j LOG --log-level 4 --log-prefix "netfilter input drop: "
 iptables -I OUTPUT -j LOG --log-level 5 --log-prefix "netfilter output drop: "
 
 
-## DMZ
-
-# FTP server
-iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 21 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 21 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 20 -j ACCEPT
-iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 20 -m state --state ESTABLISHED,RELATED -j ACCEPT
-
-
 ## Internal network
 
 # Client network
