@@ -1,0 +1,12 @@
+-N ANTISPOOFING
+-P ANTISPOOFING DROP
+-I ANTISPOOFING -j LOG --log-level 3 --log-prefix "netfilter anti-spoofing: "                          
+
+-I FORWARD -i eth0 -s $NET -j ANTISPOOFING
+-I INPUT -i eth0 -s $NET -j ANTISPOOFING
+-I FORWARD -i eth1 ! -s $DMZ_NET -j ANTISPOOFING
+-I INPUT -i eth1 ! -s $DMZ_NET -j ANTISPOOFING
+-I FORWARD -i eth2 -s $DMZ_NET -j ANTISPOOFING
+-I INPUT -i eth2 -s $DMZ_NET -j ANTISPOOFING
+-I FORWARD -i eth2 -s $MAINFW_ADDR -j ANTISPOOFING
+-I INPUT -i eth2 - $MAINFW_ADDR -j ANTISPOOFING

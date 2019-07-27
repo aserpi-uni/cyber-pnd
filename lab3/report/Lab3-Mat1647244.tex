@@ -1,13 +1,14 @@
-\documentclass[draft]{homework}
+\documentclass{homework}
 
-\usepackage{graphicx}
+\usepackage[newfloat]{minted}
 \usepackage{xspace}
+
+\usemintedstyle{pastie}
 
 
 \newcommand{\kat}{Kathará\xspace}
 
 \newcommand{\client}{\textit{client}\xspace}
-\newcommand{\dmz}{\textit{DMZ}\xspace}
 \newcommand{\ser}{\textit{internal server}\xspace}
 \newcommand{\intfw}{\textit{intfw}\xspace}
 \newcommand{\mainfw}{\textit{mainfw}\xspace}
@@ -24,7 +25,7 @@
     
     \pagebreak
     \section{Introduction}
-    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. \dmz is connected directly to the main firewall-router \mainfw and offers services accessible from the external network, while \client and \ser networks are behind a second line of defence (represented by the internal firewall-router \intfw). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
+    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. DMZ is connected directly to the main firewall-router \mainfw and offers services accessible from the external network, while \client and \ser networks are behind a second line of defence (represented by the internal firewall-router \intfw). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
     
     All hosts except the firewalls are already configured. 
     
@@ -46,7 +47,37 @@
 
     
     \section{Policy implementation}
-    \fxnote{TODO}
+    \subsection{Default policies}
+    The default policies for \texttt{FORWARD}, \texttt{INPUT} and \texttt{OUTPUT} chains are set to \texttt{DROP} in both firewalls.
+    
+    \subsection{\mainfw}
+    \subsubsection{Logging}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/logging}
+    
+    \subsubsection{DMZ}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/dmz}
+    Since the servers must be accessible from the outside but the \texttt{100.64.0.0/16} IP range is not routable, it is necessary to perform port forwarding.
+    
+    \subsubsection{Internal network}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/internal}
+    
+    \subsubsection{SSH}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/ssh}
+    
+    \subsubsection{Anti-spoofing}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/spoofing}
+    Since previous instructions do not enforce specific interface, we must ascertain that an attacker is not using a spoofed IP address.
+    
+    \subsection{\intfw}
+    \subsubsection{Internal network}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/internal}
+    
+    \subsubsection{SSH}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/ssh}
+    
+    \subsubsection{Anti-spoofing}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/spoofing}
+    Since previous instructions do not enforce specific interface, we must ascertain that an attacker is not using a spoofed IP address.
     
     
     \section{Test of the configuration}

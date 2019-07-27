@@ -1,0 +1,3 @@
+-I FORWARD -j LOG --log-level 4 --log-prefix "netfilter forward drop: "
+-I INPUT -j LOG --log-level 4 --log-prefix "netfilter input drop: "
+-I OUTPUT -j LOG --log-level 3 --log-prefix "netfilter output drop: "

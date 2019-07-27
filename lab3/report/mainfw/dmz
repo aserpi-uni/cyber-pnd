@@ -1,0 +1,7 @@
+-t nat -I PREROUTING -i eth0 -p tcp -m multiport --dports $FTP_PORTS -j DNAT --to-destination $FTP_ADDR
+-I FORWARD -d $FTP_ADDR -p tcp -m multiport --dports $FTP_PORTS -j ACCEPT
+-I FORWARD -s $FTP_ADDR -p tcp -m multiport --sports $FTP_PORTS -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+-I FORWARD -i eth0 -d $WEB_ADDR -p tcp --dport $WEB_PORT -j ACCEPT
+-I FORWARD -o eth0 -s $WEB_ADDR -p tcp --sport $WEB_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-t nat -I PREROUTING -i eth0 -p tcp --dport $WEB_PORT -j DNAT --to-destination $WEB_ADDR
