@@ -8,9 +8,10 @@ iptables -P OUTPUT DROP
 
 
 ## Logging
-iptables -I FORWARD -j LOG --log-prefix "[netfilter] Forward DROP"
-iptables -I INPUT -j LOG --log-level notice --log-prefix "[netfilter] Input DROP"
-iptables -I OUTPUT -j LOG --log-level warning --log-prefix "[netfilter] Output DROP"
+
+iptables -I FORWARD -j LOG --log-level 4 --log-prefix "netfilter forward drop: "
+iptables -I INPUT -j LOG --log-level 4 --log-prefix "netfilter input drop: "
+iptables -I OUTPUT -j LOG --log-level 5 --log-prefix "netfilter output drop: "
 
 
 ## DMZ
@@ -59,9 +60,13 @@ iptables -I OUTPUT -d 100.64.2.0/24 -p tcp --sport 22 -m state --state ESTABLISH
 
 ## Spoofing
 
-iptables -I FORWARD -i eth0 -s 100.64.1.0/24,100.64.2.0/24,100.64.254.2 -j DROP
-iptables -I INPUT -i eth0 -s 100.64.1.0/24,100.64.2.0/24 -j DROP
-iptables -I FORWARD -i eth1 ! -s 100.64.1.0/24 -j DROP
-iptables -I INPUT -i eth1 ! -s 100.64.1.0/24 -j DROP
-iptables -I FORWARD -i eth2 ! -s 100.64.2.0/24 -j DROP
-iptables -I INPUT -i eth2 ! -s 100.64.2.0/24 -j DROP
+iptables -N ANTISPOOFING
+iptables -P ANTISPOOFING DROP
+iptables -I ANTISPOOFING -j LOG --log-level 3 --log-prefix "netfilter anti-spoofing: "
+
+iptables -I FORWARD -i eth0 -s 100.64.1.0/24,100.64.2.0/24,100.64.254.2 -j ANTISPOOFING
+iptables -I INPUT -i eth0 -s 100.64.1.0/24,100.64.2.0/24 -j ANTISPOOFING
+iptables -I FORWARD -i eth1 ! -s 100.64.1.0/24 -j ANTISPOOFING
+iptables -I INPUT -i eth1 ! -s 100.64.1.0/24 -j ANTISPOOFING
+iptables -I FORWARD -i eth2 ! -s 100.64.2.0/24 -j ANTISPOOFING
+iptables -I INPUT -i eth2 ! -s 100.64.2.0/24 -j ANTISPOOFING
