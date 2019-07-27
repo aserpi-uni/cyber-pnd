@@ -1,5 +1,6 @@
 #!/bin/bash
 
+CLIENT_NET="100.64.2.0/24"
 DMZ_NET="100.64.6.0/24"
 DNS_ADDR="100.64.1.2"
 DNS_PORT="53"
@@ -40,10 +41,6 @@ iptables -t nat -I PREROUTING -i eth0 -p tcp --dport $WEB_PORT -j DNAT --to-dest
 
 
 ## Internal network
-
-# Client network
-iptables -I FORWARD -s 100.64.2.0/24 ! -d 100.64.0.0/16 -j ACCEPT
-iptables -I FORWARD -d 100.64.2.0/24 ! -s 100.64.0.0/16 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # DNS server
 iptables -I FORWARD -d $DNS_ADDR -s $DMZ_NET -p udp --dport $DNS_PORT -j ACCEPT

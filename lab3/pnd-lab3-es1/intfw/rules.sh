@@ -25,10 +25,6 @@ iptables -I OUTPUT -j LOG --log-level 5 --log-prefix "netfilter output drop: "
 
 ## Internal network
 
-# Client network
-iptables -I FORWARD -s 100.64.2.0/24 ! -d 100.64.0.0/16 -j ACCEPT
-iptables -I FORWARD -d 100.64.2.0/24 ! -s 100.64.0.0/16 -m state --state ESTABLISHED,RELATED -j ACCEPT
-
 # DNS server
 iptables -I FORWARD -d $DNS_ADDR -s $CLIENT_NET -p udp --dport $DNS_PORT -j ACCEPT
 iptables -I FORWARD -d $DNS_ADDR -s $DMZ_NET -p udp --dport $DNS_PORT -j ACCEPT
