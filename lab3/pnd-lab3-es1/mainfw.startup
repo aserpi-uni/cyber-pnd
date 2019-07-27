@@ -1,0 +1,12 @@
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+sysctl net.ipv4.ip_forward=1
+ip addr flush eth1
+ip addr flush eth2
+ifup eth1
+ifup eth2
+dpkg --install --force-confold  /var/cache/apt/archives/*.deb
+service rsyslog start
+service ssh start
+
+chmod +x /rules.sh
+/rules.sh

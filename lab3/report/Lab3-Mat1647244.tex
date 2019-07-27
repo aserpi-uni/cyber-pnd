@@ -1,0 +1,98 @@
+\documentclass{homework}
+
+\usepackage[newfloat]{minted}
+\usepackage{xspace}
+
+\usemintedstyle{pastie}
+
+
+\newcommand{\kat}{Kathará\xspace}
+
+\newcommand{\client}{\textit{client}\xspace}
+\newcommand{\ser}{\textit{internal server}\xspace}
+\newcommand{\intfw}{\textit{intfw}\xspace}
+\newcommand{\mainfw}{\textit{mainfw}\xspace}
+
+
+\title{Assignment 3: iptables on ACME Co.}
+\author{Alessandro Serpi - 1647244}
+\date{8 March 2019}
+
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+    
+    \pagebreak
+    \section{Introduction}
+    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. DMZ is connected directly to the main firewall-router \mainfw and offers services accessible from the external network, while \client and \ser networks are behind a second line of defence (represented by the internal firewall-router \intfw). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
+    
+    All hosts except the firewalls are already configured. 
+    
+    
+    \section{Evaluation of the security policy}
+    \subsection{DNS}
+    Only internal hosts should be able to resolve internal domain names using the private DNS server.
+    While the requirement are clear in regard to the impossibility for the server to reach the internet, recursive queries are enabled for the entire private network.
+    
+    \subsection{DMZ}
+    Only external hosts should be able to connect to the service offered by server in the DMZ, namely FTP and web.
+    
+    \subsection{SSH}
+    Hosts in the \client network should be able to use the SSH protocol in the internal network, no other use is authorised.
+    
+    \subsection{Syslog}
+    Internal hosts (except clients) should be able to send logging messages to the syslog server.
+    No other use is authorised, therefore admins can access the logs only through a SSH session.
+
+    
+    \section{Policy implementation}
+    \subsection{Default policies}
+    The default policies for \texttt{FORWARD}, \texttt{INPUT} and \texttt{OUTPUT} chains are set to \texttt{DROP} in both firewalls.
+    
+    \subsection{\mainfw}
+    \subsubsection{Logging}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/logging}
+    
+    \subsubsection{DMZ}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/dmz}
+    Since the servers must be accessible from the outside but the \texttt{100.64.0.0/16} IP range is not routable, it is necessary to perform port forwarding.
+    
+    \subsubsection{Internal network}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/internal}
+    
+    \subsubsection{SSH}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/ssh}
+    
+    \subsubsection{Anti-spoofing}
+    \inputminted[breakindent=3em, breaklines]{sh}{mainfw/spoofing}
+    Since previous instructions do not enforce specific interface, we must ascertain that an attacker is not using a spoofed IP address.
+    
+    \subsection{\intfw}
+    \subsubsection{Internal network}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/internal}
+    
+    \subsubsection{SSH}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/ssh}
+    
+    \subsubsection{Anti-spoofing}
+    \inputminted[breakindent=3em, breaklines]{sh}{intfw/spoofing}
+    Since previous instructions do not enforce specific interface, we must ascertain that an attacker is not using a spoofed IP address.
+    
+    
+    \section{Test of the configuration}
+    We use the test environment integrated in \kat.
+    To verify the correctness of the implementation, execute \texttt{ltest --verify=user} in the lab root folder.
+    For each host, faulty elements are listed in the \texttt{\_test/diff} folder.
+    Note that there may be some false positive.
+    
+    Given that \textit{expect} is not installed and both \textit{ftp} and \textit{ssh} clients can not be reliably used with simple bash scripts, testing the corresponding protocols must be done manually, checking the connectivity for each host.
+    
+    
+    \section{Final remarks}
+    Hosts in the private network are isolated from the internet (with the exception of DMZ servers, which can not initiate new connections).
+    This is a very restrictive policy and clashes with the DNS configuration.
+    
+    The \kat test environment has proven to be unreliable, often giving false positive regarding internet availability in DNS and FTP servers.
+    This is probably caused by a race condition between the test and the configuration scripts.
+\end{document}

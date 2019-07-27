@@ -1,0 +1,12 @@
+auto eth1
+  iface eth1 inet static
+  address 100.64.6.1
+  netmask 255.255.255.0
+  broadcast 100.64.6.255
+
+auto eth2
+  iface eth2 inet static
+  address 100.64.254.1
+  netmask 255.255.255.252
+  post-up ip route add 100.64.0.0/16 via 100.64.254.2
+

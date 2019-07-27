@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "DNS failure"
+else
+    echo "DNS ok"
+fi
+
+if wget -t 1 -T 1 100.64.6.2 -q; then
+    echo "Internal web failure"
+else
+    echo "Internal web ok"
+fi
+
+if wget -t 1 -T 1 1.1.1.1 -q; then
+    echo "Internet failure"
+else
+    echo "Internet ok"
+fi
