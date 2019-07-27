@@ -59,5 +59,9 @@
     
     
     \section{Final remarks}
-    \fxnote{TODO}
+    Hosts in the private network are isolated from the internet (with the exception of DMZ servers, which can not initiate new connections).
+    This is a very restrictive policy and clashes with the DNS configuration.
+    
+    The \kat test environment has proven to be unreliable, often giving false positive regarding internet availability in DNS and FTP servers.
+    This is probably caused by a race condition between the test and the configuration scripts.
 \end{document}
