@@ -38,7 +38,12 @@
     
     
     \section{Test of the configuration}
-    \fxnote{TODO}
+    We use the test environment integrated in \kat.
+    To verify the correctness of the implementation, execute \texttt{ltest --verify=user} in the lab root folder.
+    For each host, faulty elements are listed in the \texttt{\_test/diff} folder.
+    Note that there may be some false positive.
+    
+    Given that \textit{expect} is not installed and both \textit{ftp} and \textit{ssh} clients can not be reliably used with simple bash scripts, testing the corresponding protocols must be done manually, checking the connectivity for each host.
     
     
     \section{Final remarks}
