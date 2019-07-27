@@ -1,21 +1,14 @@
 #!/bin/bash
 
-nslookup google.com > /dev/null
-if [ $? = 0 ] ; then
-    echo "External DNS ok"
-else
-    echo "External DNS failure"
-fi
-
 if wget -t 1 -T 1 web.pndeflab.edu -q; then
     echo "Internal web failure"
 else
     echo "Internal web ok"
 fi
 
-wget -t 1 -T 1 google.com -q
-if [ $? = 0 ] ; then
-    echo "Internet firewall failure"
-else
-    echo "Internet firewall ok"
-fi
+## Not working in test environment
+# if wget -t 1 -T 1 1.1.1.1 -q; then
+#     echo "Internet failure"
+# else
+#     echo "Internet ok"
+# fi

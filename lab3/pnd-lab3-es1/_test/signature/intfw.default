@@ -2,16 +2,16 @@
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-663: eth0@if664: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ad:0c:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+690: eth0@if691: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:0f:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.254.2/30 brd 100.64.254.3 scope global eth0
        valid_lft forever preferred_lft forever
-673: eth1@if674: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ad:0a:00:04 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+700: eth1@if701: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:11:00:04 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.1.1/24 brd 100.64.1.255 scope global eth1
        valid_lft forever preferred_lft forever
-675: eth2@if676: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ad:09:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+702: eth2@if703: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:10:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.2.1/24 brd 100.64.2.255 scope global eth2
        valid_lft forever preferred_lft forever
 Kernel IP routing table
@@ -22,13 +22,12 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 100.64.254.0    0.0.0.0         255.255.255.252 U     0      0        0 eth0
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN     
-tcp        0      0 127.0.0.11:41305        0.0.0.0:*               LISTEN     
-tcp6       0      0 :::22                   :::*                    LISTEN     
-udp        0      0 0.0.0.0:44775           0.0.0.0:*                          
-udp        0      0 127.0.0.11:47056        0.0.0.0:*                          
+tcp        0      0 127.0.0.11:44005        0.0.0.0:*               LISTEN     
+udp        0      0 127.0.0.11:58334        0.0.0.0:*                          
   UID COMMAND
     0 /bin/bash
-  110 /usr/sbin/rsyslogd
-    0 /usr/sbin/sshd
+    0 bash -c sysctl net.ipv4.ip_forward=1;ip addr flush eth0;ip addr flush eth1;ip addr flush eth2;/etc/init.d/networking restart;dpkg --install --force-confold  /var/cache/apt/archives/*.deb;service rsyslog start;service ssh start;chmod +x /rules.sh;/rules.sh;
+    0 /bin/sh /etc/init.d/rsyslog start
+    0 /usr/sbin/rsyslogd
+    0 /usr/sbin/rsyslogd
     0 ps -e -o uid,command

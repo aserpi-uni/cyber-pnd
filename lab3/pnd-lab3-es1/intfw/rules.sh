@@ -1,5 +1,11 @@
 #!/bin/bash
 
+CLIENT_NET="100.64.2.0/24"
+DMZ_NET="100.64.6.0/24"
+DNS_ADDR="100.64.1.2"
+DNS_PORT="53"
+
+
 ## Default policies
 
 iptables -P FORWARD DROP
@@ -21,14 +27,12 @@ iptables -I FORWARD -s 100.64.2.0/24 ! -d 100.64.0.0/16 -j ACCEPT
 iptables -I FORWARD -d 100.64.2.0/24 ! -s 100.64.0.0/16 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # DNS server
-iptables -I FORWARD -d 100.64.1.2 -s 100.64.0.0/16 -p udp --dport 53 -j ACCEPT
-iptables -I FORWARD -s 100.64.1.2 -d 100.64.0.0/16 -p udp --sport 53 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -s 100.64.1.2 -p udp --dport 53 -j ACCEPT
-iptables -I FORWARD -d 100.64.1.2 -p udp --sport 53 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -s 100.64.1.2 -p tcp --dport 53 -j ACCEPT
-iptables -I FORWARD -d 100.64.1.2 -p tcp --sport 53 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I INPUT -s 100.64.1.2 -p udp --sport 53 -j ACCEPT
-iptables -I OUTPUT -d 100.64.1.2 -p udp --dport 53 -j ACCEPT
+iptables -I FORWARD -d $DNS_ADDR -s $CLIENT_NET -p udp --dport $DNS_PORT -j ACCEPT
+iptables -I FORWARD -d $DNS_ADDR -s $DMZ_NET -p udp --dport $DNS_PORT -j ACCEPT
+iptables -I FORWARD -s $DNS_ADDR -p udp --sport $DNS_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -d $DNS_ADDR -s $CLIENT_NET -p tcp --dport $DNS_PORT -j ACCEPT
+iptables -I FORWARD -d $DNS_ADDR -s $DMZ_NET -p tcp --dport $DNS_PORT -j ACCEPT
+iptables -I FORWARD -s $DNS_ADDR -p tcp --sport $DNS_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # Log server
 iptables -I FORWARD -d 100.64.1.3 -s 100.64.0.0/16 -p udp --dport 514 -j ACCEPT
