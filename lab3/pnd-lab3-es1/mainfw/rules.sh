@@ -1,5 +1,9 @@
 #!/bin/bash
 
+WEB_ADDR="100.64.6.2"
+WEB_PORT="80"
+
+
 ## Default policies
 
 iptables -P FORWARD DROP
@@ -23,10 +27,9 @@ iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 20 -j ACCEPT
 iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 20 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
 # Web server
-iptables -I FORWARD -d 100.64.6.2 ! -s 100.64.0.0/16 -p tcp --dport 80 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.2 ! -d 100.64.0.0/16 -p tcp --sport 80 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -d 100.64.6.2 -s 100.64.2.0/24 -p tcp --dport 80 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.2 -d 100.64.2.0/24 -p tcp --sport 80 -m state --state ESTABLISHED,RELATED -j ACCEPT
+iptables -I FORWARD -i eth0 -d $WEB_ADDR -p tcp --dport $WEB_PORT -j ACCEPT
+iptables -I FORWARD -o eth0 -s $WEB_ADDR -p tcp --sport $WEB_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+iptables -t nat -I PREROUTING -i eth0 -p tcp --dport $WEB_PORT -j DNAT --to-destination $WEB_ADDR
 
 
 ## Internal network

@@ -22,12 +22,6 @@ iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 21 -m state --state ESTABLISHED
 iptables -I FORWARD -s 100.64.6.3 -p tcp --sport 20 -j ACCEPT
 iptables -I FORWARD -d 100.64.6.3 -p tcp --dport 20 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-# Web server
-iptables -I FORWARD -d 100.64.6.2 ! -s 100.64.0.0/16 -p tcp --dport 80 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.2 ! -d 100.64.0.0/16 -p tcp --sport 80 -m state --state ESTABLISHED,RELATED -j ACCEPT
-iptables -I FORWARD -d 100.64.6.2 -s 100.64.2.0/24 -p tcp --dport 80 -j ACCEPT
-iptables -I FORWARD -s 100.64.6.2 -d 100.64.2.0/24 -p tcp --sport 80 -m state --state ESTABLISHED,RELATED -j ACCEPT
-
 
 ## Internal network
 

@@ -1,10 +1,15 @@
 #!/bin/bash
 
-wget -t 1 -T 1 web.pndeflab.edu -q
-if [ $? = 0 ] ; then
-    echo "Internal firewall failure"
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "DNS failure"
 else
-    echo "Internal firewall ok"
+    echo "DNS ok"
+fi
+
+if wget -t 1 -T 1 100.64.6.2 -q; then
+    echo "Internal web failure"
+else
+    echo "Internal web ok"
 fi
 
 wget -t 1 -T 1 1.1.1.1 -q

@@ -1,8 +1,13 @@
 #!/bin/bash
 
-wget -t 1 -T 1 1.1.1.1 -q
-if [ $? = 0 ] ; then
-    echo "Internet firewall failure"
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "DNS ok"
 else
-    echo "Internet firewall ok"
+    echo "DNS failure"
+fi
+
+if wget -t 1 -T 1 1.1.1.1 -q; then
+    echo "Internet failure"
+else
+    echo "Internet ok"
 fi

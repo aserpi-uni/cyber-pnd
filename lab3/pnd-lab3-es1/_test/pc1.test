@@ -1,10 +1,15 @@
 #!/bin/bash
 
-wget -t 1 -T 1 web.pndeflab.edu -q
-if [ $? = 0 ] ; then
-    echo "Internal DNS and web servers ok"
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "DNS ok"
 else
-    echo "Internal DNS and web server failure"
+    echo "DNS failure"
+fi
+
+if wget -t 1 -T 1 100.64.6.2 -q; then
+    echo "Internal web failure"
+else
+    echo "Internal web ok"
 fi
 
 wget -t 1 -T 1 google.com -q
