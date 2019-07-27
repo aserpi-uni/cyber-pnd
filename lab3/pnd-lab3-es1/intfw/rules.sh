@@ -4,6 +4,9 @@ CLIENT_NET="100.64.2.0/24"
 DMZ_NET="100.64.6.0/24"
 DNS_ADDR="100.64.1.2"
 DNS_PORT="53"
+LOG_ADDR="100.64.1.3"
+LOG_PORT="514"
+NET="100.64.0.0/16"
 
 
 ## Default policies
@@ -35,8 +38,8 @@ iptables -I FORWARD -d $DNS_ADDR -s $DMZ_NET -p tcp --dport $DNS_PORT -j ACCEPT
 iptables -I FORWARD -s $DNS_ADDR -p tcp --sport $DNS_PORT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 # Log server
-iptables -I FORWARD -d 100.64.1.3 -s 100.64.0.0/16 -p udp --dport 514 -j ACCEPT
-iptables -I OUTPUT -d 100.64.1.3 -p udp --dport 514 -j ACCEPT
+iptables -I FORWARD -d $LOG_ADDR -s $NET -p udp --dport $LOG_PORT -j ACCEPT
+iptables -I OUTPUT -d $LOG_ADDR -p udp --dport $LOG_PORT -j ACCEPT
 
 
 ## SSH

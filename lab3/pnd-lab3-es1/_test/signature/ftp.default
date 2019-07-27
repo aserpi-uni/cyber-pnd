@@ -2,8 +2,8 @@
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-688: eth0@if689: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ad:12:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+715: eth0@if716: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:14:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.6.3/24 brd 100.64.1.255 scope global eth0
        valid_lft forever preferred_lft forever
 Kernel IP routing table
@@ -12,13 +12,10 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 100.64.6.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 127.0.0.11:44827        0.0.0.0:*               LISTEN     
-udp        0      0 127.0.0.11:55688        0.0.0.0:*                          
+tcp        0      0 127.0.0.11:35779        0.0.0.0:*               LISTEN     
+udp        0      0 127.0.0.11:42798        0.0.0.0:*                          
   UID COMMAND
     0 /bin/bash
     0 bash -c ip addr flush eth0;/etc/init.d/networking restart;dpkg --install --force-confold  /var/cache/apt/archives/*.deb;service rsyslog start;service ssh start;chown root /etc/vsftpd.conf;vsftpd;
     0 dpkg --install --force-confold /var/cache/apt/archives/libeatmydata1_105-3_amd64.deb /var/cache/apt/archives/libestr0_0.1.10-2_amd64.deb /var/cache/apt/archives/libjson-c3_0.12-3_amd64.deb /var/cache/apt/archives/rsyslog_8.16.0-1ubuntu5_amd64.deb /var/cache/apt/archives/vsftpd_3.0.3-7_amd64.deb
-    0 /bin/sh /var/lib/dpkg/info/rsyslog.postinst configure
-    0 adduser                                                                                                                                                                                                                                                                                                                                                                                                                              
-    0 /usr/sbin/useradd -d /home/syslog -g syslog -s /bin/false -u 111 syslog
     0 ps -e -o uid,command
