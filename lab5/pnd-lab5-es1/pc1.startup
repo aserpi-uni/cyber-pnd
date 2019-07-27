@@ -1,0 +1,5 @@
+ip addr flush eth0
+/etc/init.d/networking restart
+
+ethtool -K eth0 tx off
+chmod +x pc1.test
