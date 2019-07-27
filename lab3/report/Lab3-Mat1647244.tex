@@ -24,7 +24,9 @@
     
     \pagebreak
     \section{Introduction}
-    \fxnote{TODO}
+    The private network of \textit{ACME co.} is composed by four subnetworks living in the shared address space \texttt{100.64.0.0/16}. \dmz is connected directly to the main firewall-router \mainfw and offers services accessible from the external network, while \client and \ser networks are behind a second line of defence (represented by the internal firewall-router \intfw). The latter offers services that may be used only by hosts in the private network, whereas the former does not offer any services.
+    
+    All hosts except the firewalls are already configured. 
     
     
     \section{Evaluation of the security policy}
