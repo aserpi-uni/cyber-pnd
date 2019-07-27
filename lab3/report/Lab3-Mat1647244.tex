@@ -30,8 +30,20 @@
     
     
     \section{Evaluation of the security policy}
-    \fxnote{TODO}
+    \subsection{DNS}
+    Only internal hosts should be able to resolve internal domain names using the private DNS server.
+    While the requirement are clear in regard to the impossibility for the server to reach the internet, recursive queries are enabled for the entire private network.
     
+    \subsection{DMZ}
+    Only external hosts should be able to connect to the service offered by server in the DMZ, namely FTP and web.
+    
+    \subsection{SSH}
+    Hosts in the \client network should be able to use the SSH protocol in the internal network, no other use is authorised.
+    
+    \subsection{Syslog}
+    Internal hosts (except clients) should be able to send logging messages to the syslog server.
+    No other use is authorised, therefore admins can access the logs only through a SSH session.
+
     
     \section{Policy implementation}
     \fxnote{TODO}
