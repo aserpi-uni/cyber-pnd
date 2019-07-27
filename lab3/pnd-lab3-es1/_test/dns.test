@@ -6,9 +6,8 @@ else
     echo "Internal web ok"
 fi
 
-## Not working in test environment
-# if wget -t 1 -T 1 1.1.1.1 -q; then
-#     echo "Internet failure"
-# else
-#     echo "Internet ok"
-# fi
+if wget -t 1 -T 1 1.1.1.1 -q; then
+    echo "Internet failure"
+else
+    echo "Internet ok"
+fi

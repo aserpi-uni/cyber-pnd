@@ -2,8 +2,8 @@
     link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
     inet 127.0.0.1/8 scope host lo
        valid_lft forever preferred_lft forever
-796: eth0@if797: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
-    link/ether 02:42:ad:26:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
+823: eth0@if824: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default 
+    link/ether 02:42:ad:29:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0
     inet 100.64.6.3/24 brd 100.64.1.255 scope global eth0
        valid_lft forever preferred_lft forever
 Kernel IP routing table
@@ -12,8 +12,8 @@ Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
 100.64.6.0      0.0.0.0         255.255.255.0   U     0      0        0 eth0
 Active Internet connections (only servers)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State      
-tcp        0      0 127.0.0.11:45899        0.0.0.0:*               LISTEN     
-udp        0      0 127.0.0.11:45721        0.0.0.0:*                          
+tcp        0      0 127.0.0.11:44407        0.0.0.0:*               LISTEN     
+udp        0      0 127.0.0.11:42214        0.0.0.0:*                          
   UID COMMAND
     0 /bin/bash
     0 bash -c ip addr flush eth0;/etc/init.d/networking restart;dpkg --install --force-confold  /var/cache/apt/archives/*.deb;service rsyslog start;service ssh start;chown root /etc/vsftpd.conf;vsftpd;
