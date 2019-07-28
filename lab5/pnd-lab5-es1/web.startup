@@ -1,3 +1,5 @@
+echo -e "adminpass\nadminpass" | passwd admin
+
 ip addr flush eth0
 ip addr flush eth1
 ip addr flush eth2

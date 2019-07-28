@@ -1,3 +1,5 @@
+echo -e "adminpass\nadminpass" | passwd admin
+
 ip addr flush eth0
 /etc/init.d/networking restart
 dpkg --install --force-confold  /var/cache/apt/archives/*.deb
