@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SUCCESS=0
+
+if nslookup web.pndeflab.edu > /dev/null; then
+    echo "External DNS failure"
+    (( SUCCESS = $SUCCESS | 2 ))
+else
+    echo "External DNS ok"
+fi
+
+exit $SUCCESS

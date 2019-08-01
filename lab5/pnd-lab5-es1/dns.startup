@@ -1,0 +1,11 @@
+echo -e "adminpass\nadminpass" | passwd admin
+
+ip addr flush eth0
+/etc/init.d/networking restart
+dpkg --install --force-confold  /var/cache/apt/archives/*.deb
+service rsyslog start
+service ssh start
+/etc/init.d/bind start
+
+ethtool -K eth0 tx off
+chmod +x dns.test
