@@ -102,7 +102,68 @@
     
     
     \section{VPN for the firewall tunnel}
-    \fxnote{TODO}
+    \subsection{Phase 1}
+    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings create a new phase 1 connection.
+    In the general settings, insert the following data for \mainfw and the inverse for \intfw.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase1-general}
+        \label{fig:ipsec-phase1-general}
+    \end{figure}
+    \vspace{-10pt}
+%
+    Proposal settings must be identical in both firewalls, otherwise the session negotiation will fail.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase1-proposal-auth}
+        \label{fig:ipsec-phase1-proposal-auth}
+    \end{figure}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase1-proposal-alg}
+        \label{fig:ipsec-phase1-proposal-alg}
+    \end{figure}
+    \vspace{-10pt}
+%
+    Since phase 2 will be route-based, untick the Install policy checkbox.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase1-advanced}
+        \label{fig:ipsec-phase1-advanced}
+    \end{figure}
+    
+    \subsection{Phase 2}
+    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings, create a new phase 2 configuration.
+    Since \intfw must use \mainfw as the default gateway, it is not possible to use a tunnel connection: the two networks must not overlap but \texttt{0.0.0.0/0} contains all possible subnets.
+    Instead, use a route-based setup using the \texttt{100.64.254.0/30} addresses.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase2-general}
+        \label{fig:ipsec-phase2-general}
+    \end{figure}
+%
+    In both firewalls, in order to increase security set up the proposal settings as follows.
+    MD5 and SHA1 are insecure and should be avoided, AES-128 is acceptable but AES-256 is better.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/phase2-proposal}
+        \label{fig:ipsec-phase2-proposal}
+    \end{figure}
+    
+    \subsection{Firewall rules}
+    Transfer in both firewall the rules from the interfaces in \texttt{100.64.254.0/30} to the newly-generated IPsec ones.
+    Add to the old interfaces the rules that allow IPsec traffic.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{ipsec/rules}
+        \label{fig:ipsec-rules}
+    \end{figure}
+    
+    \subsection{Routes}
+    In \mainfw, change the \texttt{100.64.0.0/16} route from the internal interface to the IPsec one.
+    In \intfw, change the default gateway to the IPsec interface.
     
     
     \section{Test of the configuration}
