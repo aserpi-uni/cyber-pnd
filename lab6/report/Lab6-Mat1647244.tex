@@ -51,5 +51,12 @@
     
     
     \section{Final remarks}
-    \fxnote{TODO}
+    \opn has a lacklustre LDAP support.
+    
+    The primary shortcoming is the manual user configuration: the usefulness of a central domain controller is greatly diminished if admins must import locally and configure new users in each firewall.
+    
+    Another deficiency is the non-existent group support.
+    A sensible approach would be inserting newly-imported users into local groups with the same names as their LDAP groups (optionally creating those which do not exist) in order to ease privilege assignment; instead, LDAP groups are completely ignored.
+    
+    Lastly, the documentation is not up to date: some icons are different (e.g. the user import icon) and some settings are located in different sections (e.g. the active authentication servers).
 \end{document}
