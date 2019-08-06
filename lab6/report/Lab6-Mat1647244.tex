@@ -1,5 +1,6 @@
 \documentclass[draft]{homework}
 
+\usepackage{graphicx}
 \usepackage{xspace}
 
 
@@ -38,7 +39,31 @@
     
     
     \section{\opn internal firewall configuration}
-    \fxnote{TODO}
+    \subsection{Server}
+    Create a new authentication server in \textit{System} $\rightarrow$ \textit{Access} $\rightarrow$ \textit{Server} with the following settings:
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/server}
+        \label{fig:server}
+    \end{figure}
+    In field \textit{Bind credential}, insert the distinguished name and password for the \intfw account created in the domain controller.
+    In field \textit{Extended query}, specify that the users must be member of the \textit{PND\_Group} group.
+    After completing the form up to \textit{Base DN}, press the \textit{Select} button adjacent to field \textit{Authentication containers} and choose the only option available.
+    
+    \subsection{Users}
+    In \textit{System} $\rightarrow$ \textit{Access} $\rightarrow$ \textit{Users}, import start importing new users clicking on the cloud icon.
+    Select all showed users and insert them in the \textit{admin} group.
+    
+    \subsection{Settings}
+    In \textit{System} $\rightarrow$ \textit{Settings} $\rightarrow$ \textit{Administration}, change the authentication server to \textit{Domain controller}.
+    Since superuser access is disabled, it may be advisable to add \textit{admin} to the list of sudoers.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/settings}
+        \label{fig:settings}
+    \end{figure}
+    
+    If SSH is enabled, add \textit{admin} to the SSH login groups and disable root login.
     
     
     \section{\opn main firewall configuration}
