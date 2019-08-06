@@ -67,7 +67,13 @@
     
     
     \section{\opn main firewall configuration}
-    \fxnote{TODO}
+    Follow the configuration section for the internal firewall, changing the bind account to the one created for \textit{mainfw}.
+    In the internal firewall, create a rule for allowing LDAP traffic from the main firewall to the domain controller.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/rule}
+        \label{fig:rule}
+    \end{figure}
     
     
     \section{Test of the configuration}
