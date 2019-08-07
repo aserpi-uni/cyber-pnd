@@ -1,4 +1,4 @@
-\documentclass[draft]{homework}
+\documentclass{homework}
 
 \usepackage{graphicx}
 \usepackage{xspace}
@@ -20,6 +20,7 @@
 
 
 \title{Practical Network Defense - Lab 6}
+\subtitle{LDAP on ACME co.}
 \author{Alessandro Serpi - 1647244}
 \date{3 May 2019}
 
@@ -71,7 +72,7 @@
     Add a new computer account for the internal firewall clicking on the \textit{Groups} folder, then on the green plus sign and filling the form as follows (taking care to choose a secure password):
     \begin{figure}[H]
         \centering
-        \includegraphics[width=\linewidth]{images/intfw}
+        \includegraphics[width=0.7\linewidth]{images/intfw}
         \label{fig:group}
     \end{figure}
     \noindent Then, add another account for the main firewall in the same fashion.
@@ -87,6 +88,7 @@
         \includegraphics[width=\linewidth]{images/server}
         \label{fig:server}
     \end{figure}
+    \vspace{-10pt}
 
     In field \textit{Bind credentials}, insert the distinguished name and password for the \intfw account created in the domain controller.
     In field \textit{Extended query}, specify that the users must be member of the \texttt{PND\_Group} group.
@@ -104,6 +106,7 @@
         \includegraphics[width=\linewidth]{images/settings}
         \label{fig:settings}
     \end{figure}
+    \vspace{-10pt}
     
     If SSH is enabled, add \texttt{admin} to the SSH login groups and disable root login.
     
@@ -116,6 +119,7 @@
         \includegraphics[width=\linewidth]{images/rule}
         \label{fig:rule}
     \end{figure}
+    \vspace{-25pt}
     
     
     \section{Test of the configuration}
