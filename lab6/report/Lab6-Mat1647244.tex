@@ -43,32 +43,32 @@
     \section{Zentyal configuration}
     \subsection{Network}
     Enable the \textit{Network} module in \textit{Module status} and reboot the server.
-    In \textit{System} $\rightarrow$ \textit{General}, change the hostname to \textit{dc} and the domain to \textit{pndeflab.edu}.
+    In \textit{System} $\triangleright$ \textit{General}, change the hostname to \texttt{dc} and the domain to \texttt{pndeflab.edu}.
     Then, enable \textit{Network} in \textit{Module status} and reboot the server.
     
-    In \textit{Network} $\rightarrow$ \textit{Interfaces} configure the internal interface \textit{eth0} with static addre\ss \textit{100.64.1.2}. 
-    Then, in \textit{Network} $\rightarrow$ \textit{Gateways}, assign to the gateway on interface \textit{eth0} (modifying an existing gateway or creating a new one, if necessary) the IP address \textit{100.64.1.2}.
+    In \textit{Network} $\triangleright$ \textit{Interfaces} configure the internal interface \texttt{eth0} with static address \texttt{100.64.1.2}. 
+    Then, in \textit{Network} $\triangleright$ \textit{Gateways}, assign to the gateway on interface \texttt{eth0} (modifying an existing gateway or creating a new one, if necessary) the IP address \texttt{100.64.1.2}.memorise
         
     \subsection{Firewall and DNS}
     Enable \textit{Firewall} and \textit{DNS} modules in \textit{Module status} and reboot the server.
     While the former module is already configured, it is necessary to set up the latter.
     
     In \textit{DNS}, section \textit{Forwarders}, add a known DNS server.
-    In section \textit{Domains}, click on the cog wheel in row \textit{pndeflab.edu} and column \textit{Hostnames}.
+    In section \textit{Domains}, click on the cog wheel in row \texttt{pndeflab.edu} and column \textit{Hostnames}.
     Then, add all relevant hosts in the network, inserting for each one all their local IP addresses.
     
-    Open a terminal (either using the virtual machine graphical interface or through an SSH connection) with root privileges and edit the file \textit{etc/zentyal/dns.conf}, appending \textit{100.64.0.0/16} to the line starting with \textit{intnets = }. Then, reboot the server.
+    Open a terminal (either using the virtual machine graphical interface or through an SSH connection) with root privileges and edit the file \texttt{etc/zentyal/dns.conf}, appending \texttt{100.64.0.0/16} to the line starting with \texttt{intnets = }. Then, reboot the server.
     
     \subsection{Remote logging}
-    Open a terminal with root privileges and append the line \textit{*.* @100.64.1.3} to the file \textit{/etc/rsyslog.d/50-default.conf} and reboot the server.
+    Open a terminal with root privileges and append the line \texttt{*.* @100.64.1.3} to the file \texttt{/etc/rsyslog.d/50-default.conf} and reboot the server.
 
     \subsection{LDAP}
     Enable the \textit{Domain Controller and File Sharing } module in \textit{Module status} and reboot the server.
     
-    In \textit{Users and Computers} $\rightarrow$ \textit{Manage}, add a new group \textit{Firewalls} clicking on the \textit{Group} folder, then on the green plus sign and completing the form.
-    Similarly, add a new \textit{PND\_Group} group for the administrators.
+    In \textit{Users and Computers} $\triangleright$ \textit{Manage}, add a new group \texttt{Firewalls} clicking on the \textit{Groups} folder, then on the green plus sign and completing the form.
+    Similarly, add a new \texttt{PND\_Group} group for the administrators.
     
-    Add a new computer account for the internal firewall clicking on the \textit{Group} folder, then on the green plus sign and filling the form as follows (taking care to choose a secure password):
+    Add a new computer account for the internal firewall clicking on the \textit{Groups} folder, then on the green plus sign and filling the form as follows (taking care to choose a secure password):
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/intfw}
@@ -76,39 +76,40 @@
     \end{figure}
     \noindent Then, add another account for the main firewall in the same fashion.
     
-    Finally, add a new User account for each admin, inserting them in the \textit{PND\_Group} group.
+    Finally, add a new User account for each admin, inserting them in the \texttt{PND\_Group} group.
     
     
     \section{\opn internal firewall configuration}
     \subsection{Server}
-    Create a new authentication server in \textit{System} $\rightarrow$ \textit{Access} $\rightarrow$ \textit{Server} with the following settings:
+    Create a new authentication server in \textit{System} $\triangleright$ \textit{Access} $\triangleright$ \textit{Server} with the following settings:
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/server}
         \label{fig:server}
     \end{figure}
-    In field \textit{Bind credential}, insert the distinguished name and password for the \intfw account created in the domain controller.
-    In field \textit{Extended query}, specify that the users must be member of the \textit{PND\_Group} group.
+
+    In field \textit{Bind credentials}, insert the distinguished name and password for the \intfw account created in the domain controller.
+    In field \textit{Extended query}, specify that the users must be member of the \texttt{PND\_Group} group.
     After completing the form up to \textit{Base DN}, press the \textit{Select} button adjacent to field \textit{Authentication containers} and choose the only option available.
     
     \subsection{Users}
-    In \textit{System} $\rightarrow$ \textit{Access} $\rightarrow$ \textit{Users}, import start importing new users clicking on the cloud icon.
-    Select all showed users and insert them in the \textit{admin} group.
+    In \textit{System} $\triangleright$ \textit{Access} $\triangleright$ \textit{Users}, import start importing new users clicking on the cloud icon.
+    Select all showed users and insert them in the \texttt{admin} group.
     
     \subsection{Settings}
-    In \textit{System} $\rightarrow$ \textit{Settings} $\rightarrow$ \textit{Administration}, change the authentication server to \textit{Domain controller}.
-    Since superuser access is disabled, it may be advisable to add \textit{admin} to the list of sudoers.
+    In \textit{System} $\triangleright$ \textit{Settings} $\triangleright$ \textit{Administration}, change the authentication server to \textit{Domain controller}.
+    Since superuser access is disabled, it may be advisable to add \texttt{admin} to the list of sudoers.
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{images/settings}
         \label{fig:settings}
     \end{figure}
     
-    If SSH is enabled, add \textit{admin} to the SSH login groups and disable root login.
+    If SSH is enabled, add \texttt{admin} to the SSH login groups and disable root login.
     
     
     \section{\opn main firewall configuration}
-    Follow the configuration section for the internal firewall, changing the bind account to the one created for \textit{mainfw}.
+    Follow the configuration section for the internal firewall, changing the bind account to the one created for \texttt{mainfw}.
     In the internal firewall, create a rule for allowing LDAP traffic from the main firewall to the domain controller.
     \begin{figure}[H]
         \centering
