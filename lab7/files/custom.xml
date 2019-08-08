@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<ruleset documentation_url="http://docs.opnsense.org/">
+    <location url="http://web.pndeflab.edu/suricata/" prefix="Custom"/>
+    <files>
+        <file description="custom">custom.rules</file>
+    </files>
+</ruleset>
