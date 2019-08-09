@@ -1,4 +1,4 @@
-\documentclass[draft]{homework}
+\documentclass{homework}
 
 \usepackage{fixme}
 \usepackage{graphicx}
@@ -79,7 +79,7 @@
     Testing was performed manually, opening a terminal in both firewalls and trying to send the EICAR string using \textit{netcat}.
     The default policies were momentarily changed to allowing all incoming packets to avoid false negatives.
     
-    For TCP, the pair of commands was
+    For TCP, the pair of commands was:
     \begin{minted}{sh}
         nc -l 55555  # server
         echo "$EICAR_STRING" | nc $OTHER_FIREWALL 55555  # client
@@ -92,6 +92,7 @@
         \includegraphics[width=\linewidth]{images/proof}
         \label{fig:proof}
     \end{figure}
+    \vspace{-25pt}
     
     
     \section{Final remarks}
