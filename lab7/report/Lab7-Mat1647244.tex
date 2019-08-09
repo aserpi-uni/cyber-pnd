@@ -1,8 +1,13 @@
 \documentclass[draft]{homework}
 
+\usepackage{xspace}
+
+\newcommand{\opn}{OPNsense\xspace}
+\newcommand{\suri}{Suricata\xspace}
+
 
 \title{Practical Network Defense - Lab 7}
-\subtitle{Suricata on ACME co.}
+\subtitle{\suri on ACME co.}
 \author{Alessandro Serpi - 1647244}
 \date{3 May 2019}
 
@@ -14,7 +19,10 @@
     
     \pagebreak
     \section{Introduction}
-    \fxnote{TODO}
+    An intrusion prevention systems (IPS) is a device that monitors a network to identify malicious activities, log information about them, report them and attempt to block them.
+    The IPS that comes with \opn is \suri, owned and supported by the Open Information Security Foundation (OISF), a non-profit foundation.
+    
+    In this laboratory, \suri is configured in both firewalls to block the majority of suspect or potentially undesired activities (such as the Tor protocol and connections to social networks) and auto-update itself.
     
     
     \section{IPS configuration}
