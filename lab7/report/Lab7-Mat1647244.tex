@@ -32,7 +32,15 @@
     
     
     \section{IPS configuration}
-    \fxnote{TODO}
+    In \textit{System} $\triangleright$ \textit{Services} $\triangleright$ \textit{Intrusion detection} $\triangleright$ \textit{Administration}, section \textit{Settings}, tick \textit{Enabled} and \textit{IPS mode} and select all interfaces in the setting of the same name.
+    
+    In section \textit{Download}, tick all checkboxes and click \textit{Enable (drop filter)}. Then, download and update the rules clicking on the specific button.
+    
+    In section \textit{Rules}, verify that there are enabled rules.
+    In order to increase performances, only the most prominent rules are enabled by default: \suri is a highly memory-consuming applicative, enabling all rules would greatly affect network latencies.
+    
+    In section \textit{Schedule}, set the rules to auto-update every day at midnight.
+    Tick the checkbox, set \texttt{0} to \textit{Hours} and \textit{Minutes} and \texttt{*} to all others time-related settings.
     
     
     \section{Custom rule writing and description}
