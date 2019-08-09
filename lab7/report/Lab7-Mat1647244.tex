@@ -1,6 +1,7 @@
 \documentclass[draft]{homework}
 
 \usepackage{fixme}
+\usepackage{graphicx}
 \usepackage{minted}
 \usepackage{xspace}
 
@@ -52,7 +53,7 @@
     Options are between parentheses.
     \texttt{msg} is the rule description.
     \texttt{content} states which byte sequence (vertical bars delimit a sequence of bytes in hexadecimal form) the payload must have.
-    \texttt{flow} applies only to TCP packet exchanges; it specifies that the packet must belong to an already-established connection and must come from the server.
+    \texttt{flow} applies only to TCP packet exchanges; it specifies that the packet must belong to an already-established connection.
     \texttt{classtype} is the rule type; since a test class does not exist, it was chosen a generic type.
     \texttt{sid} is the signature id; it must be unique.
     \texttt{rev} is the signature version; since the rules have not been updated yet, it is 1.
@@ -67,7 +68,22 @@
     
     
     \section{Test of the rules}
-    \fxnote{TODO}
+    Testing was performed manually, opening a terminal in both firewalls and trying to send the EICAR string using \textit{netcat}.
+    The default policies were momentarily changed to allowing all incoming packets to avoid false negatives.
+    
+    For TCP, the pair of commands was
+    \begin{minted}{sh}
+        nc -l 55555  # server
+        echo "$EICAR_STRING" | nc $OTHER_FIREWALL 55555  # client
+    \end{minted}
+    For UDP is identical, except for the flag \mintinline{sh}{-u}.
+    
+    The packets were never received by the server because they were blocked by the client, as showed by the alerts.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/proof}
+        \label{fig:proof}
+    \end{figure}
     
     
     \section{Final remarks}
