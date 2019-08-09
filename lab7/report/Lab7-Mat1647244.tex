@@ -1,9 +1,14 @@
 \documentclass[draft]{homework}
 
+\usepackage{fixme}
+\usepackage{minted}
 \usepackage{xspace}
 
 \newcommand{\opn}{OPNsense\xspace}
 \newcommand{\suri}{Suricata\xspace}
+
+% Drop boxes around everything, used to mask pygments errors
+\renewcommand{\fcolorbox}[4][]{#4}
 
 
 \title{Practical Network Defense - Lab 7}
@@ -30,7 +35,35 @@
     
     
     \section{Custom rule writing and description}
-    \fxnote{TODO}
+    \subsection{EICAR string}
+    EICAR (European Institute for Computer Antivirus Research), together with CARO (Computer Antivirus Research Organization), developed the EICAR test file: a harmless string designed to test the integrity of security software.
+    Compliant applications treat the string as malicious content; in this case, the IPS blocks unencrypted TCP and UDP packets that contain the string.
+    
+    \subsection{Rules}
+    The rules are (ordered by \texttt{sid}):
+    \inputminted[breaklines]{suricata.py:SuriLexer -x}{../pnd-lab7-es1/web/var/www/html/suricata/custom.rules}
+    
+    The protocol is written in red; it is UDP for the first rule, TCP for the second one.
+    Since the UDP \texttt{pcap} file is less complex, the corresponding rule was created first.
+    
+    The right-facing arrow states that the packets are checked only in one direction.
+    Since the rules are checked against every packet, irregardless of its origin or destination (addresses and ports are in blue), it is useless to specify a bidirectional check.
+    
+    Options are between parentheses.
+    \texttt{msg} is the rule description.
+    \texttt{content} states which byte sequence (vertical bars delimit a sequence of bytes in hexadecimal form) the payload must have.
+    \texttt{flow} applies only to TCP packet exchanges; it specifies that the packet must belong to an already-established connection and must come from the server.
+    \texttt{classtype} is the rule type; since a test class does not exist, it was chosen a generic type.
+    \texttt{sid} is the signature id; it must be unique.
+    \texttt{rev} is the signature version; since the rules have not been updated yet, it is 1.
+    
+    \subsection{Rule installation}
+    Since \opn does not allow to add new rules, it is necessary to create a downloadable ruleset in a web server and manually insert the definition file into the appropriate folder in both firewalls.
+    
+    First, create the file \texttt{custom.rules} with the two rules for the EICAR string in directory \texttt{var/www/html/suricata} of host \texttt{web.pndeflab.edu}, the only web server in this laboratory.
+    Then, add the ruleset \texttt{Custom/custom} manually inserting the file \texttt{custom.xml}:
+    \inputminted{xml}{files/custom.xml}
+    \noindent in the directory \texttt{/usr/local/opnsense/scripts/suricata/metadata/rules} of both firewalls.
     
     
     \section{Test of the rules}
