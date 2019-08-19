@@ -1,8 +1,10 @@
 \documentclass[draft]{homework}
 
 \usepackage{fixme}
+\usepackage{minted}
 \usepackage{xspace}
 
+\newcommand{\kat}{Kathará\xspace}
 \newcommand{\sq}{Squid\xspace}
 
 
@@ -35,7 +37,14 @@
     
     
     \section{Test of the setup}
-    \fxnote{TODO}
+    The IP address \texttt{100.64.2.5/24} (belonging to the client network) was assigned to a virtual interface of the host and the route \texttt{100.64.0.0/16} was added to the same interface via \texttt{100.64.2.1} (the internal firewall's address in the client network).
+    
+    A \kat guest was created in the client network.
+    When it tried to connect to a web server (either in the private network or in the internet) trough \textit{links}, no page could be reached.
+    
+    In the host OS, a Mozilla Firefox instance was configured to use \texttt{100.64.6.3} as web proxy.
+    When it tried to connect to a web server, the proxy requested user credentials.
+    It was possible to navigate only if the inserted username and password corresponded to a valid LDAP user account.
     
     
     \section{Final remarks}
