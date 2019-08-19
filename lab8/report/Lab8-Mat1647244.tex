@@ -6,6 +6,7 @@
 
 \newcommand{\kat}{Kathará\xspace}
 \newcommand{\sq}{Squid\xspace}
+\newcommand{\vb}{VirtualBox\xspace}
 
 
 \title{Practical Network Defense - Lab 8}
@@ -25,7 +26,14 @@
     
     
     \section{\sq installation}
-    \fxnote{TODO}
+    The assignment was carried out in a local environment.
+    
+    A new \vb guest running Arch Linux was created.
+    Since the configuration was conducted through terminal commands, no graphical interface was added.
+    Squid was installed using the default package manager (\mintinline{sh}{pacman -S squid}) and started at boot time through \textit{systemd} (\mintinline{sh}{systemctl enable squid.service}).
+    
+    The \vb machine needs to be started passing the option \texttt{proxy} to the configuration script \texttt{start\_vms.sh}.
+    The executable powers up the necessary virtual machines (firewalls and domain controller) and configures the networks.
     
     
     \section{Forward proxy configuration}
