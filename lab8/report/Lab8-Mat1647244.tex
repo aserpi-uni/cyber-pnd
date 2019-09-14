@@ -22,7 +22,12 @@
     
     \pagebreak
     \section{Introduction}
-   \fxnote{TODO}
+    \sq is a caching web proxy that acts as an intermediary between clients and servers, it supports numerous protocols.
+    In this laboratory we will set up \sq so to accept HTTP/S requests from hosts in the \textit{client} network, forward them to the recipients and cache the relative answer.
+    If an answer to a received request is already in cache, the request is is not forwarded and the cached resource is sent to the client.
+    
+    Since LDAP authentication is required, it is not possible to create an intercepting (transparent) proxy: clients would believe they are communicating directly with the final receiver, however, they would receive proxy-related error status.
+    Given that hosts in the \textit{client} network can not request external resource using HTTP/S without passing through the proxy, a system-wide configuration is the most appropriate.
     
     
     \section{\sq installation}
