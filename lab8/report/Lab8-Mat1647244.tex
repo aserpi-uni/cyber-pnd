@@ -1,0 +1,112 @@
+\documentclass{homework}
+
+\usepackage{fixme}
+\usepackage{minted}
+\usepackage{xspace}
+
+\newcommand{\kat}{Kathará\xspace}
+\newcommand{\sq}{Squid\xspace}
+\newcommand{\vb}{VirtualBox\xspace}
+
+
+\title{Practical Network Defense - Lab 8}
+\subtitle{\sq on ACME co.}
+\author{Alessandro Serpi - 1647244}
+\date{10 May 2019}
+
+
+\begin{document}
+    \maketitle
+    \tableofcontents
+    
+    
+    \pagebreak
+    \section{Introduction}
+    \sq is a caching web proxy that acts as an intermediary between clients and servers, it supports numerous protocols.
+    In this laboratory we will set up \sq so to accept HTTP/S requests from hosts in the \textit{client} network, forward them to the recipients and cache the relative answer.
+    If an answer to a received request is already in cache, the request is is not forwarded and the cached resource is sent to the client.
+    
+    Since LDAP authentication is required, it is not possible to create an intercepting (transparent) proxy: clients would believe they are communicating directly with the final receiver, however, they would receive proxy-related error status.
+    Given that hosts in the \textit{client} network can not request external resource using HTTP/S without passing through the proxy, a system-wide configuration is the most appropriate.
+    
+    
+    \section{\sq installation}
+    The assignment was carried out in a local environment.
+    
+    A new \vb guest running Arch Linux was created.
+    Since the configuration was conducted through terminal commands, no graphical interface was added.
+    Squid was installed using the default package manager (\mintinline{sh}{pacman -S squid}) and started at boot time through \textit{systemd} (\mintinline{sh}{systemctl enable squid.service}).
+    
+    The \vb machine needs to be started passing the option \texttt{proxy} to the configuration script \texttt{start\_vms.sh}.
+    The executable powers up the necessary virtual machines (firewalls and domain controller) and configures the networks.
+    
+    
+    \section{Forward proxy configuration}
+    \subsection{Squid configuration}
+    \sq's configuration file is located at \texttt{/etc/squid/squid.conf}.
+    Since a single \sq instance is started at a time, it is not necessary to create additional configuration files.
+    
+    \subsubsection{Root execution}
+    In order to insulate the applicative from external interference, it is appropriate to create a new user \texttt{squid} for \sq.
+    Since \sq is launched by a \textit{systemd} service, it is necessary create a first statement to specify the user as which the proxy is executed.
+    The second statement specifies the cache directory.
+    
+    \subsubsection{System setup}
+    The second two statements allow only the local machine to access the cache manager.
+    
+    \texttt{shutdown\_lifetime} states for how much time the proxy must accept new connections after it is prompted to close (it can be done through \texttt{systemctl stop squid}).
+    Since the applicative needs to be responsive, it is set up to a small value.
+    
+    \texttt{visible\_hostname} states the hostname that appears to clients when they use the proxy.
+    It is the proxy's full domain name.
+    
+    \subsubsection{Forward proxy}
+    \texttt{acl} statements are used to define access lists.
+    Each list is composed by all requests that have in common the specified characteristic (port, source ip, etc.).
+    Lists are allowed or denied specific actions with \texttt{http\_access} statements.
+    
+    \texttt{ssl\_bump} statements specify the action associated with SSL/TLS connections for specific lists.
+    In this case it is superfluous because \texttt{splice} (no bumb) is the default action.
+    
+    The \texttt{http\_port} statement specifies the port in which the proxy accepts incoming requests.
+    
+    \texttt{refresh\_pattern} statements specify custom thresholds for deciding for how long specific elements should be defined \textit{fresh}.
+    A non-fresh element is said to be \textit{stale} and is automatically discarded.
+    
+    \subsection{Firewall rules}
+    Remove all rules that allowed clients to navigate in internet and replace them with rules that allow HTTP/S traffic between clients and the web proxy.
+    In addition, allow the proxy to surf the web.
+    
+    To avoid locking out the administrators that have set the proxy in their machine, allow the web proxy to access the firewalls' web GUI (which uses port 443).
+    
+    
+    \section{Authentication setup}
+    \sq-provided \texttt{basic\_ldap\_auth} external program was adopted as the authentication plugin.
+    It retrieves user credentials through basic HTTP authentication and forwards them to a LDAP domain controller.
+    Therefore, it was necessary to insert a rule in both firewalls that allows LDAP traffic from the proxy to the domain controller.
+    
+    Since anonymous searches are not allowed, a new computer LDAP account was created for the proxy using the domain controller's web GUI.
+    \texttt{basic\_ldap\_auth} uses the aforementioned account (credential are provided with \texttt{-D} and \texttt{-w}) to search for (using the account's common name) and bind to the user-sent credentials.
+    If the program replies with \texttt{OK}, the user is inserted in the \texttt{ldap-auth} group thanks to the instruction \mintinline{sh}{acl ldap-auth proxy_auth REQUIRED}.
+    
+    \texttt{auth\_param basic children 10} states that \sq spawns at most ten instances of the authentication program.
+    Since each instance can verify only one request at a time, if many users try to log in simultaneously, some of them may wait a few moments before being able to navigate.
+    
+    
+    \section{Test of the setup}
+    The IP address \texttt{100.64.2.5/24} (belonging to the client network) was assigned to a virtual interface of the host and the route \texttt{100.64.0.0/16} was added to the same interface via \texttt{100.64.2.1} (the internal firewall's address in the client network).
+    
+    A \kat guest was created in the client network.
+    When it tried to connect to a web server (either in the private network or in the internet) trough \textit{links}, no page could be reached.
+    
+    In the host OS, a Mozilla Firefox instance was configured to use \texttt{100.64.6.3} as web proxy.
+    When it tried to connect to a web server, the proxy requested user credentials.
+    It was possible to navigate only if the inserted username and password corresponded to a valid LDAP user account.
+    
+    
+    \section{Final remarks}
+    In order to be effective, a caching system has to be installed in an environment where there are numerous close duplicate requests.
+    Otherwise, if cache miss are much more frequent than hits, the caching mechanisms only slows down the connections.
+    
+    Still, a \sq server has uses other than caching, such as centralised logging and traffic inspection.
+\end{document}
