@@ -41,7 +41,16 @@
     
     
     \section{Authentication setup}
-    \fxnote{TODO}
+    \sq-provided \texttt{basic\_ldap\_auth} external program was adopted as the authentication plugin.
+    It retrieves user credentials through basic HTTP authentication and forwards them to a LDAP domain controller.
+    Therefore, it was necessary to insert a rule in both firewalls that allows LDAP traffic from the proxy to the domain controller.
+    
+    Since anonymous searches are not allowed, a new computer LDAP account was created for the proxy using the domain controller's web GUI.
+    \texttt{basic\_ldap\_auth} uses the aforementioned account (credential are provided with \texttt{-D} and \texttt{-w}) to search for (using the account's common name) and bind to the user-sent credentials.
+    If the program replies with \texttt{OK}, the user is inserted in the \texttt{ldap-auth} group thanks to the instruction \mintinline{sh}{acl ldap-auth proxy_auth REQUIRED}.
+    
+    \texttt{auth\_param basic children 10} states that \sq spawns at most ten instances of the authentication program.
+    Since each instance can verify only one request at a time, if many users try to log in simultaneously, some of them may wait a few moments before being able to navigate.
     
     
     \section{Test of the setup}
