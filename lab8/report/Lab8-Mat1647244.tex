@@ -37,7 +37,42 @@
     
     
     \section{Forward proxy configuration}
-    \fxnote{TODO}
+    \subsection{Squid configuration}
+    \sq's configuration file is located at \texttt{/etc/squid/squid.conf}.
+    Since a single \sq instance is started at a time, it is not necessary to create additional configuration files.
+    
+    \subsubsection{Root execution}
+    In order to insulate the applicative from external interference, it is appropriate to create a new user \texttt{squid} for \sq.
+    Since \sq is launched by a \textit{systemd} service, it is necessary create a first statement to specify the user as which the proxy is executed.
+    The second statement specifies the cache directory.
+    
+    \subsubsection{System setup}
+    The second two statements allow only the local machine to access the cache manager.
+    
+    \texttt{shutdown\_lifetime} states for how much time the proxy must accept new connections after it is prompted to close (it can be done through \texttt{systemctl stop squid}).
+    Since the applicative needs to be responsive, it is set up to a small value.
+    
+    \texttt{visible\_hostname} states the hostname that appears to clients when they use the proxy.
+    It is the proxy's full domain name.
+    
+    \subsubsection{Forward proxy}
+    \texttt{acl} statements are used to define access lists.
+    Each list is composed by all requests that have in common the specified characteristic (port, source ip, etc.).
+    Lists are allowed or denied specific actions with \texttt{http\_access} statements.
+    
+    \texttt{ssl\_bump} statements specify the action associated with SSL/TLS connections for specific lists.
+    In this case it is superfluous because \texttt{splice} (no bumb) is the default action.
+    
+    The \texttt{http\_port} statement specifies the port in which the proxy accepts incoming requests.
+    
+    \texttt{refresh\_pattern} statements specify custom thresholds for deciding for how long specific elements should be defined \textit{fresh}.
+    A non-fresh element is said to be \textit{stale} and is automatically discarded.
+    
+    \subsection{Firewall rules}
+    Remove all rules that allowed clients to navigate in internet and replace them with rules that allow HTTP/S traffic between clients and the web proxy.
+    In addition, allow the proxy to surf the web.
+    
+    To avoid locking out the administrators that have set the proxy in their machine, allow the web proxy to access the firewalls' web GUI (which uses port 443).
     
     
     \section{Authentication setup}
