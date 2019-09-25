@@ -137,7 +137,7 @@
     \subsection{Phase 2}
     In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings, create a new phase 2 configuration.
     Since \intfw must use \mainfw as the default gateway, it is not possible to use a tunnel connection: the two networks must not overlap but \texttt{0.0.0.0/0} contains all possible subnets.
-    Instead, use a route-based setup using the \texttt{100.64.254.0/30} addresses.
+    Instead, use a route-based setup using \texttt{100.64.247.0/30} addresses.
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{ipsec/phase2-general}
