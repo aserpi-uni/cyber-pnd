@@ -82,7 +82,7 @@
     Then, allow access to \client and \ser networks for road warriors.
     Given that the specifics are not clear about the type of access the road warriors have and that they may have different needs than normal employees, allowing all TCP/UDP packets was considered a good compromise between security and functionality.
     
-    In addition to creating the rules for the standard interfaces (those in \texttt{100.64.254.0/30}, \texttt{100.64.1.0/24} and \texttt{100.64.2.0/24}), we also define equivalent rules in the automatically-generated OpenVPN interface.
+    Since communications may be started from both the road warriors network and the internal networks, we must add rules in all affected interfaces (the automatically-generated OpenVPN one and those in \texttt{100.64.254.0/30}, \texttt{100.64.1.0/24} and \texttt{100.64.2.0/24}).
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{openvpn/rules-clients}
