@@ -180,4 +180,12 @@
     Since it encrypts IP packets, it is more suited to use cases where both endpoints are fixed.
     In this particular case, assuming that both firewalls are located in the same secure compound and that the communication channel does not leave its premises, IPsec is an overkill.
     The additional -- and superfluous -- security does not justify the substantial latency increase.
+    
+    \section{Update: OpenVPN in the remote infrastructure}
+    In the remote infrastructure, the OpenVPN server was configured differently in order to authenticate users through certificates.
+    
+    Firstly, we created an internal Certificate Authority in System $\rightarrow$ Trust $\rightarrow$ Authorities, then we used it to create a new server certificate in System $\rightarrow$ Trust $\rightarrow$ Certificates.
+    Similarly, we generated a certificate for every Road Warrior user.
+    
+    The server mode was changed to \texttt{Remote Access (SSL/TLS)} and we used the previously-generated certificates in the cryptographic settings. 
 \end{document}
