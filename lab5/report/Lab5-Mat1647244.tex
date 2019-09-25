@@ -44,12 +44,12 @@
         \label{fig:users}
     \end{figure}
     \vspace{-20pt}
-    Create the three new users \textit{alice}, \textit{bob} and \textit{susan} in System $\rightarrow$ Access $\rightarrow$ Users.
+    Create the three new users \textit{alice}, \textit{bob} and \textit{susan} in System $\triangleright$ Access $\triangleright$ Users.
     All fields except username and password are optional and may be omitted. 
     Then, create the group \textit{road\_warriors} and add to it the newly created users.
     
     \subsection{Server}
-    Create a new server in VPN $\rightarrow$ OpenVPN $\rightarrow$ Servers and populate it with the following options.
+    Create a new server in VPN $\triangleright$ OpenVPN $\triangleright$ Servers and populate it with the following options.
     The encryption settings provide additional security with respect to the default (except for the password-only authentication mode, which has been decided with smartphones in mind), while the subnet \texttt{10.10.0.0/24} has been chosen without a precise reason.
     \begin{figure}[H]
         \centering
@@ -90,7 +90,7 @@
     \end{figure}
        
     \subsection{Clients}
-    In VPN $\rightarrow$ OpenVPN $\rightarrow$ Client Export it is possible to download the OpenVPN configuration files.
+    In VPN $\triangleright$ OpenVPN $\triangleright$ Client Export it is possible to download the OpenVPN configuration files.
     Obviously, it is necessary to insert the public IP for the WAN interface, which is usually fixed for enterprise networks.
     
     To start a new connection, execute the command \mintinline{sh}{openvpn --config FILE.ovpn} and insert a pair of valid credentials.
@@ -103,7 +103,7 @@
     
     \section{VPN for the firewall tunnel}
     \subsection{Phase 1}
-    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings create a new phase 1 connection.
+    In VPN $\triangleright$ IPsec $\triangleright$ Tunnel Settings create a new phase 1 connection.
     In the general settings, insert the following data for \mainfw and the inverse for \intfw.
     \begin{figure}[H]
         \centering
@@ -135,7 +135,7 @@
     \end{figure}
     
     \subsection{Phase 2}
-    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings, create a new phase 2 configuration.
+    In VPN $\triangleright$ IPsec $\triangleright$ Tunnel Settings, create a new phase 2 configuration.
     Since \intfw must use \mainfw as the default gateway, it is not possible to use a tunnel connection: the two networks must not overlap but \texttt{0.0.0.0/0} contains all possible subnets.
     Instead, use a route-based setup using \texttt{100.64.247.0/30} addresses.
     \begin{figure}[H]
@@ -184,7 +184,7 @@
     \section{Update: OpenVPN in the remote infrastructure}
     In the remote infrastructure, the OpenVPN server was configured differently in order to authenticate users through certificates.
     
-    Firstly, we created an internal Certificate Authority in System $\rightarrow$ Trust $\rightarrow$ Authorities, then we used it to create a new server certificate in System $\rightarrow$ Trust $\rightarrow$ Certificates.
+    Firstly, we created an internal Certificate Authority in System $\triangleright$ Trust $\triangleright$ Authorities, then we used it to create a new server certificate in System $\triangleright$ Trust $\triangleright$ Certificates.
     Similarly, we generated a certificate for every Road Warrior user.
     
     The server mode was changed to \texttt{Remote Access (SSL/TLS)} and we used the previously-generated certificates in the cryptographic settings. 
