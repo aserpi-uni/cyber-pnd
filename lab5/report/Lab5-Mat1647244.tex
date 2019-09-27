@@ -44,12 +44,12 @@
         \label{fig:users}
     \end{figure}
     \vspace{-20pt}
-    Create the three new users \textit{alice}, \textit{bob} and \textit{susan} in System $\rightarrow$ Access $\rightarrow$ Users.
+    Create the three new users \textit{alice}, \textit{bob} and \textit{susan} in System $\triangleright$ Access $\triangleright$ Users.
     All fields except username and password are optional and may be omitted. 
     Then, create the group \textit{road\_warriors} and add to it the newly created users.
     
     \subsection{Server}
-    Create a new server in VPN $\rightarrow$ OpenVPN $\rightarrow$ Servers and populate it with the following options.
+    Create a new server in VPN $\triangleright$ OpenVPN $\triangleright$ Servers and populate it with the following options.
     The encryption settings provide additional security with respect to the default (except for the password-only authentication mode, which has been decided with smartphones in mind), while the subnet \texttt{10.10.0.0/24} has been chosen without a precise reason.
     \begin{figure}[H]
         \centering
@@ -82,7 +82,7 @@
     Then, allow access to \client and \ser networks for road warriors.
     Given that the specifics are not clear about the type of access the road warriors have and that they may have different needs than normal employees, allowing all TCP/UDP packets was considered a good compromise between security and functionality.
     
-    In addition to creating the rules for the standard interfaces (those in \texttt{100.64.254.0/30}, \texttt{100.64.1.0/24} and \texttt{100.64.2.0/24}), we also define equivalent rules in the automatically-generated OpenVPN interface.
+    Since communications may be started from both the road warriors network and the internal networks, we must add rules in all affected interfaces (the automatically-generated OpenVPN one and those in \texttt{100.64.254.0/30}, \texttt{100.64.1.0/24} and \texttt{100.64.2.0/24}).
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{openvpn/rules-clients}
@@ -90,7 +90,7 @@
     \end{figure}
        
     \subsection{Clients}
-    In VPN $\rightarrow$ OpenVPN $\rightarrow$ Client Export it is possible to download the OpenVPN configuration files.
+    In VPN $\triangleright$ OpenVPN $\triangleright$ Client Export it is possible to download the OpenVPN configuration files.
     Obviously, it is necessary to insert the public IP for the WAN interface, which is usually fixed for enterprise networks.
     
     To start a new connection, execute the command \mintinline{sh}{openvpn --config FILE.ovpn} and insert a pair of valid credentials.
@@ -103,7 +103,7 @@
     
     \section{VPN for the firewall tunnel}
     \subsection{Phase 1}
-    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings create a new phase 1 connection.
+    In VPN $\triangleright$ IPsec $\triangleright$ Tunnel Settings create a new phase 1 connection.
     In the general settings, insert the following data for \mainfw and the inverse for \intfw.
     \begin{figure}[H]
         \centering
@@ -135,9 +135,9 @@
     \end{figure}
     
     \subsection{Phase 2}
-    In VPN $\rightarrow$ IPsec $\rightarrow$ Tunnel Settings, create a new phase 2 configuration.
+    In VPN $\triangleright$ IPsec $\triangleright$ Tunnel Settings, create a new phase 2 configuration.
     Since \intfw must use \mainfw as the default gateway, it is not possible to use a tunnel connection: the two networks must not overlap but \texttt{0.0.0.0/0} contains all possible subnets.
-    Instead, use a route-based setup using the \texttt{100.64.254.0/30} addresses.
+    Instead, use a route-based setup using \texttt{100.64.247.0/30} addresses.
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{ipsec/phase2-general}
@@ -180,4 +180,12 @@
     Since it encrypts IP packets, it is more suited to use cases where both endpoints are fixed.
     In this particular case, assuming that both firewalls are located in the same secure compound and that the communication channel does not leave its premises, IPsec is an overkill.
     The additional -- and superfluous -- security does not justify the substantial latency increase.
+    
+    \section{Update: OpenVPN in the remote infrastructure}
+    In the remote infrastructure, the OpenVPN server was configured differently in order to authenticate users through certificates.
+    
+    Firstly, we created an internal Certificate Authority in System $\triangleright$ Trust $\triangleright$ Authorities, then we used it to create a new server certificate in System $\triangleright$ Trust $\triangleright$ Certificates.
+    Similarly, we generated a certificate for every Road Warrior user.
+    
+    The server mode was changed to \texttt{Remote Access (SSL/TLS)} and we used the previously-generated certificates in the cryptographic settings. 
 \end{document}
