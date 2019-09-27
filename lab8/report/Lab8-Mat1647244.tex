@@ -109,4 +109,14 @@
     Otherwise, if cache miss are much more frequent than hits, the caching mechanisms only slows down the connections.
     
     Still, a \sq server has uses other than caching, such as centralised logging and traffic inspection.
+    
+    \section{Update: GUI access in the remote infrastructure}
+    Although requirements specify that \textquote{clients should not be allowed to navigate in HTTP/HTTPS without using the proxy}, the next sentence states that \textquote{HTTPS traffic should go straight to Internet}, hinting that clients may access firewalls' and domain controller's web GUIs without using the proxy.
+    
+    Furthermore, we believe that allowing access to the GUIs through the proxy poses a security risk. The proxy is located in the DMZ together with the web server, which is the main attack target because it is the only resource accessible from the outside.
+    Since proxy and web server are located in the same collision domain, packets are not routed through the firewall-router.
+    Therefore, an attacker that has compromised the web server has no restrictions in infiltrate the proxy, while he must use specific protocols to attack other hosts in the network.
+    
+    If the proxy server has access to the firewall-routers and the domain controller, it becomes easier for an attacker to take control of the entire network.
+    Therefore, we decided to allow only direct access to the GUIs, prohibiting connections through the proxy.
 \end{document}
