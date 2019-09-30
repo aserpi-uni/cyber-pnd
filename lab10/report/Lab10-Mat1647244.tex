@@ -1,9 +1,12 @@
 \documentclass[draft]{homework}
 
 \usepackage{fixme}
+\usepackage{graphicx}
 \usepackage{xspace}
 
+\newcommand{\dhcp}{DHCPv6\xspace}
 \newcommand{\ip}{IPv6\xspace}
+\newcommand{\opn}{OPNsense\xspace}
 
 
 \title{Practical Network Defense - Lab 10}
@@ -27,7 +30,23 @@
     
     
     \section{Enabling \ip on the DMZ}
-    \fxnote{TODO}
+    The \dhcp server on DMZ interface must be configured with the prefix received on WAN: select \textit{Track Interface} in \textit{Interfaces} $\triangleright$ \textit{DMZ}, section \textit{\ip Configuration Type}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/dmz-ipv6}
+        \label{fig:dmz-ipv6}
+    \end{figure}
+    \vspace{-15pt}
+    
+    Leave the just-appeared options (in the bottom of the page) unchanged, only selecting WAN in \textit{\ip interface} if necessary.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/dmz-track}
+        \label{fig:dmz-track}
+    \end{figure}
+    \vspace{-25pt}
+    
+    The relevant firewall rules are automatically added by \opn.
     
     
     \section{Test of the solution}
