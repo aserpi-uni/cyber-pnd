@@ -2,10 +2,12 @@
 
 \usepackage{fixme}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{xspace}
 
 \newcommand{\dhcp}{DHCPv6\xspace}
 \newcommand{\ip}{IPv6\xspace}
+\newcommand{\isp}{ISP\xspace}
 \newcommand{\opn}{OPNsense\xspace}
 
 
@@ -26,7 +28,24 @@
     
     
     \section{Enabling \ip on the firewall}
-    \fxnote{TODO}
+    In \textit{Interfaces} $\triangleright$ \textit{WAN}, select \textit{\dhcp} in section \textit{\ip Configuration Type}.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/wan-ipv6}
+        \label{fig:wan-ipv6}
+    \end{figure}
+    \vspace{-15pt}
+    
+    Compile the \dhcp configuration section like in the image.
+    Since the \isp\footnote{Since the assignment was carried out in the local environment, the \isp was impersonated by \href{https://klub.com.pl/dhcpv6/}{Dibbler}.} does not spontaneously send Advertise packets, the client must manually ask for the \dhcp server with Solicit messages.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/wan-dhcp}
+        \label{fig:wan-dhcp}
+    \end{figure}
+    \vspace{-25pt}
+    
+    The relevant firewall rules are automatically added by \opn.
     
     
     \section{Enabling \ip on the DMZ}
