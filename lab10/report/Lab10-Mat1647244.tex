@@ -51,7 +51,8 @@
     \end{figure}
     \vspace{-25pt}
     
-    The relevant firewall rules are automatically added by \opn.
+    The firewall rules for \dhcp are automatically configured by \opn.
+    Assuming that the prefix received from the ISP is static and the router does not reassign addresses, add a route allowing HTTP \ip traffic from the outside to the web sever.
     
     
     \section{Enabling \ip on the DMZ}
@@ -71,7 +72,8 @@
     \end{figure}
     \vspace{-25pt}
     
-    The relevant firewall rules are automatically added by \opn.
+    The firewall rules for \dhcp are automatically configured by \opn.
+    In addition, add \ip to the rules regarding web traffic from the proxy server.
     
     
     \section{Test of the solution}
