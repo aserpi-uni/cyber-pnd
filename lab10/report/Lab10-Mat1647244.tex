@@ -3,6 +3,7 @@
 \usepackage{fixme}
 \usepackage{graphicx}
 \usepackage{hyperref}
+\usepackage{minted}
 \usepackage{xspace}
 
 \newcommand{\dhcp}{DHCPv6\xspace}
@@ -69,7 +70,13 @@
     
     
     \section{Test of the solution}
-    \fxnote{TODO}
+    Since the assignment was carried out in a local environment, it made no sense to perform route tracing.
+    Instead, since we had complete control over all network components, we started and stopped the \dhcp server and analysed the resulting traffic.
+    
+    Since the option \textit{Send \ip prefix hint} was checked, the main router did not ask for an arbitrary prefix but for the renewal of a specific one.
+    When the server was active, the router received a positive reply (since there were no other clients, the prefix was always available).
+    
+    Please find attached a successful RENEW/REPLY exchange and the output of \mintinline{sh}{ifconfig em0}, which shows the main router's link-local \ip address.
     
     
     \section{Final remarks}
