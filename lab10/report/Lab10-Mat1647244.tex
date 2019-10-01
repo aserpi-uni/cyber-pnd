@@ -25,7 +25,12 @@
     
     \pagebreak
     \section{Introduction}
-    \fxnote{TODO}
+    DHCPv6 prefix delegation is used to assign a network address prefix and automate configuration and provisioning of the public routable addresses for the network.
+    
+    The router asks the \isp for a network prefix using \dhcp.
+    Once assigned, the \isp routes this network to the router, which starts advertising the new addresses to hosts in the network, either via SLAAC or using DHCPv6.
+    
+    In this environment, only hosts in the DMZ need to receive a global \ip address.
     
     
     \section{Enabling \ip on the firewall}
