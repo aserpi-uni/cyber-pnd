@@ -40,6 +40,15 @@
     The domain controller does not set `httpOnly' and `secure' cookie attributes, which can allow session hijacking attacks.
     Since this is a Zentyal's shortcoming, we can not implement any mitigation.
     
+    \subsection{SSH brute force login with default credentials}
+    \begin{displayquote}
+        It was possible to login into the remote SSH server using default credentials.
+       \textelp{}
+       Change the password as soon as possible.
+    \end{displayquote}
+    In the remote environment, we left the default password for the majority of the resources.
+    There were no such vulnerabilities in the local environment: when we created the servers, we chose non-default username/password combinations.
+    
     \subsection{TCP timestamps}
     \begin{displayquote}
         It was detected that the host implements RFC1323.
@@ -57,6 +66,9 @@
     
     
     \section{Mitigations}
+    \subsection{SSH brute force login with default credentials}
+    Use non-predictable passwords also in the remote environment.
+    
     \fxnote{TODO}
     
     
