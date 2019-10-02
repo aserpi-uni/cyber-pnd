@@ -28,6 +28,19 @@
     
     
     \section{Assessment results and analysis}
+    \subsection{TCP timestamps}
+    \begin{displayquote}
+        It was detected that the host implements RFC1323.
+        \textelp{}
+        A side effect of this feature is that the uptime of the remote host can sometimes be computed.
+    \end{displayquote}
+    
+    An attacker may use TCP timestamps to determine whether security patches requiring a reboot were applied to a host.
+    However, disabling timestamps adds security through obscurity, which is no security. 
+    In addition, TCP timestamps are used in the PAWS (Protect Against Wrapped Sequence Numbers) mechanism.
+    
+    Therefore, we decided not to consider the user of this functionality a vulnerability and not to implement any mitigation.
+    
     \fxnote{TODO}
     
     
