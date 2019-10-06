@@ -21,7 +21,14 @@
     
     
     \section{Greenbone setup}
-    \fxnote{TODO}
+    \subsection{Greenbone Community Edition in the local environment}
+    Create a new VirtualBox virtual machine \textit{pnd-gsm}, selecting \textit{Linux} and \textit{Other Linux (64-bit)} as respectively OS type and version and assigning at least 4GiB of RAM and 9GiB of hard disk space.
+    Then, download the latest ISO image of the Greenbone Community Edition and assign it to the CD interface of the virtual machine.
+    
+    Start the virtual machine with the attached configuration script \texttt{start\_vms.sh} using the parameter \texttt{gsm} and follow on-screen instructions to create a local and a web account.
+    
+    Since the firewalls must allow all traffic from and to the vulnerability scanner, we decided not to place the virtual machine in the \textit{DMZ} in order to not create holes in the firewall.
+    Instead, we established it in the \textit{INTERNAL\_SERVERS} network, where it is more difficult for a potential attacker to exploit the firewalls' configuration.
     
     \subsection{Tasks}
     Login in the web GUI and create a new host in \textit{Assets} $\triangleright$ \textit{Hosts} for every machine in the network, filling \textit{Name} with the host's IP address and \textit{Comment} with a description.
