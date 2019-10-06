@@ -1,6 +1,7 @@
 \documentclass[draft]{homework}
 
 \usepackage{fixme}
+\usepackage{graphicx}
 
 
 \title{Practical Network Defense - Lab 9}
@@ -21,6 +22,30 @@
     
     \section{Greenbone setup}
     \fxnote{TODO}
+    
+    \subsection{Tasks}
+    Login in the web GUI and create a new host in \textit{Assets} $\triangleright$ \textit{Hosts} for every machine in the network, filling \textit{Name} with the host's IP address and \textit{Comment} with a description.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/new-host}
+        \label{fig:new-host}
+    \end{figure}
+    \vspace{-20pt}
+    
+    Next, create new credentials in \textit{Configuration} $\triangleright$ \textit{Credentials} for every used SSH username/password combination.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/new-credentials}
+        \label{fig:new-credentials}
+    \end{figure}
+    \vspace{-20pt}
+    
+    In the host menu, create for each host a new target using the specific button.
+    In the configuration window, select \textit{All IANA assigned TCP and UDP 2012-02-20} as \textit{Port List} and add the SSH credentials set (if it exists).
+    
+    Finally, in \textit{Scans} $\triangleright$ \textit{Tasks}, create a new task for every target, selecting \textit{Full and fast ultimate} as \textit{Scan Config} and \textit{Random} as \textit{Order for target hosts}.
     
     
     \section{Rules of engagement}
