@@ -28,6 +28,18 @@
     
     
     \section{Assessment results and analysis}
+    \subsection{Missing cookie attributes in the domain controller}
+    \begin{displayquote}
+        The application is missing the `httpOnly' attribute.
+        \textelp{}
+        This allows a cookie to be accessed by JavaScript which could lead to session hijacking attacks.
+    \end{displayquote}
+    \begin{displayquote}
+        The flaw is due to cookie is not using 'secure' attribute, which allows cookie to be passed to the server by the client over non-secure channels (http) and allows attacker to conduct session hijacking attacks.
+    \end{displayquote}
+    The domain controller does not set `httpOnly' and `secure' cookie attributes, which can allow session hijacking attacks.
+    Since this is a Zentyal's shortcoming, we can not implement any mitigation.
+    
     \subsection{TCP timestamps}
     \begin{displayquote}
         It was detected that the host implements RFC1323.
