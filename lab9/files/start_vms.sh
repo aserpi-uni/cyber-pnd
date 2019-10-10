@@ -73,3 +73,4 @@ if (( ${+COFFEE_START} )); then
     VBoxManage startvm "$COFFEE"
 fi
 
+echo -e "\nRemember to change /etc/hosts!"

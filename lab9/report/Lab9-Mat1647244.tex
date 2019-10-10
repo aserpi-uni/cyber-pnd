@@ -60,6 +60,15 @@
     
     
     \section{Assessment results and analysis}
+    \subsection{Cleartext transmission of sensitive information via HTTP}
+    \begin{displayquote}
+        The host / application transmits sensitive information (username, passwords) in cleartext via HTTP.
+        \textelp{}
+        An attacker could use this situation to compromise or eavesdrop on the HTTP communication between the client and the server using a man-in-the-middle attack to get access to sensitive data like usernames or passwords.
+    \end{displayquote}
+    In order to allow ordinary and extraordinary maintenance, the coffee machine's web GUI must be accessible from the outside.
+    Since communications between users and vending machine are carried out in cleartext using HTTP, an attacker that has access to the network can sniff user credentials or gain access to private data (such as the machine's current status).
+    
     \subsection{Missing cookie attributes in the domain controller}
     \begin{displayquote}
         The application is missing the `httpOnly' attribute.
@@ -94,14 +103,71 @@
     
     Therefore, we decided not to consider the user of this functionality a vulnerability and not to implement any mitigation.
     
-    \fxnote{TODO}
-    
     
     \section{Mitigations}
+    \subsection{Cleartext transmission of sensitive information via HTTP}
+    Since the vending machine does not support encryption, it is necessary to set up a TLS offloading mechanism to protect communications between the vending machine and the support crew.
+    TLS operations are delegated to the main router, which encrypts messages coming from and decrypts messages directed to the vending machine. 
+    
+    Install \textit{os-nginx} in \textit{System} $\triangleright$ \textit{Firmware} $\triangleright$ \textit{Plugins}.
+    Then, enable the web server in \textit{Services} $\triangleright$ \textit{Nginx} $\triangleright$ \textit{Configuration}.
+    From now on all actions will be performed in \textit{nginx}'s configuration section.
+    
+    Create a new upstream server for the vending machine in \textit{Upstream} $\triangleright$ \textit{Upstream Server} and configure it like in the following image (leave all other fields unchanged), ensuring that \textit{Allow DNS server list to be overridden by DHCP/PPP on WAN } in \textit{System} $\triangleright$ \textit{Settings} $\triangleright$ \textit{General} is disabled.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth]{images/upstream-server}
+        \label{fig:upstream-server}
+    \end{figure}
+    \vspace{-20pt}
+    
+    Create a new upstream in \textit{Upstream} $\triangleright$ \textit{Upstream} and configure it like in the following picture (leave all other fields unchanged).
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/upstream}
+        \label{fig:upstream}
+    \end{figure}
+    \vspace{-20pt}
+    
+    Create a new location in \textit{HTTP(S)} $\triangleright$ \textit{Location} and configure it like in the following picture (leave all other fields unchanged).
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/location}
+        \label{fig:location}
+    \end{figure}
+    \vspace{-20pt}
+    
+    Create a new certificate authority for the domain and a new server certificate for the subdomain \texttt{coffee-maker.pndeflab.edu}.
+    
+    Finally, create a new HTTP server in \textit{HTTP(S)} $\triangleright$ \textit{HTTP server} and configure it like in the following pictures (leave all other fields unchanged).
+    It is especially important to select \textit{HTTPS Only}, otherwise users would still be able to carry on insecure communications with the server machine.
+    \vspace{-5pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/http-server-1}
+        \label{fig:http-server-1}
+    \end{figure}
+    \vspace{-20pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/http-server-2}
+        \label{fig:http-server-2}
+    \end{figure}
+    \vspace{-20pt}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1\linewidth]{images/http-server-3}
+        \label{fig:http-server-3}
+    \end{figure}
+    \vspace{-20pt}
+    
+    Even if ACME's web server does not receive or transmit sensible information, we nonetheless decided to secure it in the same way performing analogous steps.
+    
     \subsection{SSH brute force login with default credentials}
     Use non-predictable passwords also in the remote environment.
-    
-    \fxnote{TODO}
     
     
     \section{Final remarks}
