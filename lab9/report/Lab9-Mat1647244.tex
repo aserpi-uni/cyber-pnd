@@ -2,6 +2,7 @@
 
 \usepackage{fixme}
 \usepackage{graphicx}
+\usepackage{hyperref}
 
 
 \title{Practical Network Defense - Lab 9}
@@ -56,7 +57,11 @@
     
     
     \section{Rules of engagement}
-    \fxnote{TODO}
+    We scanned all IANA-assigned TCP and UDP ports of every host in the private network.
+    In addition, we gave to the vulnerability scanner SSH access to the resources in order to check for outdated and vulnerable components.
+    
+    Clients, log server and web server were analysed only in the remote environment, while (due to technical problems) the domain controller and the coffee maker were checked only in the local environment.
+    Consequently, the mitigation described in section \hyperref[sec:http-mitigation]{5.1} was not implemented in the remote environment.
     
     
     \section{Assessment results and analysis}
@@ -105,7 +110,7 @@
     
     
     \section{Mitigations}
-    \subsection{Cleartext transmission of sensitive information via HTTP}
+    \subsection{Cleartext transmission of sensitive information via HTTP}\label{sec:http-mitigation}
     Since the vending machine does not support encryption, it is necessary to set up a TLS offloading mechanism to protect communications between the vending machine and the support crew.
     TLS operations are delegated to the main router, which encrypts messages coming from and decrypts messages directed to the vending machine. 
     
