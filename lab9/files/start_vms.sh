@@ -2,16 +2,25 @@
 
 COFFEE="pnd-fantasticcoffee"
 DC="pnd-dc"
+GSM="pnd-gsm"
 INTFW="pnd-intfw"
 MAINFW="pnd-mainfw"
 PROXY="pnd-proxy"
 
 
 for arg in "$@"; do
-    if [[ $arg = "coffee" ]]; then
+    if [[ $arg = "all" ]]; then
+        COFFEE_START=true
+        DC_START=true
+        GSM_START=true
+        PROXY_START=true
+        break
+    elif [[ $arg = "coffee" ]]; then
         COFFEE_START=true
     elif [[ $arg = "dc" ]]; then
         DC_START=true
+    elif [[ $arg = "gsm" ]]; then
+        GSM_START=true
     elif [[ $arg = "proxy" ]]; then
         DC_START=true
         PROXY_START=true
@@ -35,6 +44,7 @@ echo -e "Firewalls:\tbr-firewalls"
 [[ `sudo docker network ls | grep -E "\snetkit_0_server\s"` =~ "^\w*" ]] && SERVER="br-$MATCH"
 VBoxManage modifyvm $INTFW --bridgeadapter2 "$SERVER"
 VBoxManage modifyvm $DC --bridgeadapter1 "$SERVER"
+VBoxManage modifyvm $GSM --bridgeadapter1 "$SERVER"
 echo -e "Server:\t\t$SERVER"
 
 [[ `sudo docker network ls | grep -E "\snetkit_0_client\s"` =~ "^\w*" ]] && CLIENT="br-$MATCH"
@@ -56,9 +66,11 @@ echo -e "External:\tbr-external"
 VBoxManage startvm "$INTFW"
 VBoxManage startvm "$MAINFW"
 if (( ${+DC_START} )); then VBoxManage startvm "$DC"; fi
+if (( ${+GSM_START} )); then VBoxManage startvm "$GSM"; fi
 if (( ${+PROXY_START} )); then VBoxManage startvm "$PROXY"; fi
 if (( ${+COFFEE_START} )); then
     vared -p "Press Enter when mainfw has finished starting..." -c ignored
     VBoxManage startvm "$COFFEE"
 fi
 
+echo -e "\nRemember to change /etc/hosts!"
